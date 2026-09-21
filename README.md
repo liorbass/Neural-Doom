@@ -1,5 +1,9 @@
 # neural-doom
 
+> 🎮 **Live Interactive Web Demo:**  
+> 👉 **[https://liorbass.github.io/Neural-Doom/](https://liorbass.github.io/Neural-Doom/)**  
+> *Play DOOM in real time powered by the in-browser Mamba-Nano Neural Execution Engine (10.25+ MIPS, 35.0 FPS, 100% client-side WebAssembly).*
+
 Can a neural network learn to *be* a CPU and run DOOM in real time? This project compiles DOOM
 (doomgeneric / chocolate-doom) to **bare-metal RV32I**, traces its execution
 instruction-by-instruction, and trains an ultra-fast **Mamba Selective State Space Model (SSM)**
@@ -71,14 +75,15 @@ make -C emulator web           # or play 100% inside your browser via WebAssembl
 emulator/emulator --bin doomgeneric/doomgeneric/doom_rv32i_demo.bin --no-input --steps 500000000
 ```
 
-### GitHub Pages Deployment
+### 🎮 Live Demo on GitHub Pages
+
+Play DOOM running directly on the Neural Execution Engine in your browser with zero installation:  
+👉 **[https://liorbass.github.io/Neural-Doom/](https://liorbass.github.io/Neural-Doom/)**
 
 The in-browser player and neural execution engine run **100% client-side** in WebAssembly and JavaScript with **zero server backend required**.
 
-To deploy to **GitHub Pages**:
-1. In your GitHub repository, go to **Settings** &rarr; **Pages**.
-2. Under **Build and deployment** &rarr; **Source**, select **GitHub Actions**.
-3. Push to `main` &mdash; the included [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) workflow will automatically deploy `web/` to `https://<username>.github.io/<repo>/`.
+#### Automated Deployment
+The repository includes an automated GitHub Actions deployment workflow ([`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)). Every push to `main` automatically deploys the latest `web/` build directly to **[https://liorbass.github.io/Neural-Doom/](https://liorbass.github.io/Neural-Doom/)**.
 
 Datasets and model weights are not checked in (too large) — regenerate them:
 
