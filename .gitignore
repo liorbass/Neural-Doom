@@ -1,0 +1,42 @@
+# --- environments & toolchain (fetched by setup_env.sh) ---
+.venv/
+venv/
+toolchain/
+rv-toolchain.tar.gz
+__pycache__/
+*.py[cod]
+
+# --- vendored build tree (cloned by setup_env.sh) ---
+doomgeneric/
+doom1.wad
+
+# --- generated datasets (regenerate with model/gen_synthetic.py or tracer.py) ---
+/data/dataset_synthetic_2m.jsonl
+/data/dataset_synthetic.jsonl
+/data/dataset_dense.jsonl
+checkpoint.pkl
+
+# --- logs & run artifacts ---
+logs/
+*.log
+frame*.ppm
+frame*.png
+
+# --- build outputs ---
+emulator/emulator
+emulator/test_arm32
+emulator/*.so
+*.so
+doom_rv32i
+doom_rv32i.bin
+doom_rv32i.map
+!web/doom_rv32i.bin
+symbols.txt
+
+# --- editor / agent state ---
+.goose/
+.idea/
+.vscode/
+
+# --- uv ---
+.venv/

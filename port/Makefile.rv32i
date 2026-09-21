@@ -1,0 +1,103 @@
+# Makefile for neural-doom bare-metal RISC-V port
+TOOLCHAIN ?= ../../toolchain/bin
+CC = $(TOOLCHAIN)/riscv-none-elf-gcc
+OBJCOPY = $(TOOLCHAIN)/riscv-none-elf-objcopy
+NM = $(TOOLCHAIN)/riscv-none-elf-nm
+
+# rv32i base integer ISA (no multiply, no atomics) - pure 32-bit integer DOOM
+CFLAGS = -march=rv32i -mabi=ilp32 -O2 -ffreestanding -fno-builtin -fomit-frame-pointer \
+         -fno-common -ffunction-sections -fdata-sections -I. \
+         -DDOOMGENERIC_RESX=320 -DDOOMGENERIC_RESY=200
+LDFLAGS = -T link.ld -nostdlib -Wl,--gc-sections -Wl,-Map=doom_rv32i.map
+
+OBJDIR=build
+OUTPUT=doom_rv32i
+BIN=$(OUTPUT).bin
+
+SRC_DOOM = dummy.o am_map.o doomdef.o doomstat.o dstrings.o d_event.o d_items.o \
+    d_iwad.o d_loop.o d_main.o d_mode.o d_net.o f_finale.o f_wipe.o g_game.o \
+    hu_lib.o hu_stuff.o info.o i_cdmus.o i_endoom.o i_joystick.o i_scale.o \
+    i_sound.o i_system.o i_timer.o memio.o m_argv.o m_bbox.o m_cheat.o m_config.o \
+    m_controls.o m_fixed.o m_menu.o m_misc.o m_random.o p_ceilng.o p_doors.o \
+    p_enemy.o p_floor.o p_inter.o p_lights.o p_map.o p_maputl.o p_mobj.o p_plats.o \
+    p_pspr.o p_saveg.o p_setup.o p_sight.o p_spec.o p_switch.o p_telept.o p_tick.o \
+    p_user.o r_bsp.o r_data.o r_draw.o r_main.o r_plane.o r_segs.o r_sky.o \
+    r_things.o sha1.o sounds.o statdump.o st_lib.o st_stuff.o s_sound.o tables.o \
+    v_video.o wi_stuff.o w_checksum.o w_file.o w_main.o w_wad.o z_zone.o \
+    w_file_stdc.o i_input.o i_video.o doomgeneric.o mus2mid.o \
+    doomgeneric_rv32i.o syscalls.o
+
+ASMSRC = start.o
+OBJS = $(addprefix $(OBJDIR)/, $(SRC_DOOM) $(ASMSRC))
+
+all: $(BIN)
+
+clean:
+	rm -rf $(OBJDIR) $(OUTPUT) $(BIN) *.map \
+	       $(DEMO_OUTPUT) $(DEMO_BIN) doom1_demo.wad symbols_demo.txt
+
+$(OUTPUT): $(OBJS)
+	@echo [Linking $@]
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(OUTPUT) -lm -lc -lgcc
+
+$(BIN): $(OUTPUT)
+	$(OBJCOPY) -O binary $< $@
+	@echo "Built $(BIN): $$(stat -c%s $(BIN)) bytes"
+
+$(OBJS): | $(OBJDIR)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: %.c
+	@echo [Compiling $<]
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/start.o: start.s
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Append WAD to the binary at the 10MB mark (WAD_BASE_ADDR = 0x80A00000)
+wad: $(BIN)
+	truncate -s 10M $(BIN)
+	cat doom1.wad >> $(BIN)
+	@echo "Appended doom1.wad -> $$(stat -c%s $(BIN)) bytes total"
+
+# Guest global addresses (gamestate, gametic, ...) for emulator.c
+# state probes. Regenerate after every rebuild; the emulator reads symbols.txt
+# from next to the .bin and warn if it is stale or missing.
+symbols: $(OUTPUT)
+	$(NM) $(OUTPUT) | awk '/ [BDBG] (gametic|pagetic|gamestate|gameaction|itemOn|menuactive)$$/ {printf "%s 0x%s\n", $$3, $$1}' | sort > symbols.txt
+	@echo "Wrote symbols.txt ($$(wc -l < symbols.txt) probe symbols)"
+
+# --- First-level-completion demo build -------------------------------------
+# Boots straight into the E1M1DEMO lump (vanilla 1.9 E1M1 speedrun by Laszlo
+# Vecsei, e1m1uv.lmp) and plays it to the exit. Default build is unchanged.
+DEMO_OUTPUT = doom_rv32i_demo
+DEMO_BIN = $(DEMO_OUTPUT).bin
+DEMO_LUMP = e1m1uv.lmp
+
+demo: $(DEMO_BIN) symbols_demo.txt
+
+doom1_demo.wad: doom1.wad $(DEMO_LUMP) wadadd.py
+	python3 wadadd.py doom1.wad $(DEMO_LUMP) E1M1DEMO $@
+
+$(OBJDIR)/doomgeneric_rv32i_demo.o: doomgeneric_rv32i.c | $(OBJDIR)
+	@echo "[Compiling $< with -DPLAY_DEMO]"
+	$(CC) $(CFLAGS) -DPLAY_DEMO -c $< -o $@
+
+$(DEMO_OUTPUT): $(OBJS) $(OBJDIR)/doomgeneric_rv32i_demo.o
+	@echo [Linking $@]
+	$(CC) $(CFLAGS) -T link.ld -nostdlib -Wl,--gc-sections -Wl,-Map=$(DEMO_OUTPUT).map \
+	    $(filter-out $(OBJDIR)/doomgeneric_rv32i.o,$^) -o $@ -lm -lc -lgcc
+
+$(DEMO_BIN): $(DEMO_OUTPUT) doom1_demo.wad
+	$(OBJCOPY) -O binary $(DEMO_OUTPUT) $@
+	truncate -s 10M $@
+	cat doom1_demo.wad >> $@
+	@echo "Built demo binary $(DEMO_BIN): $$(stat -c%s $@) bytes"
+
+symbols_demo.txt: $(DEMO_OUTPUT)
+	$(NM) $(DEMO_OUTPUT) | awk '/ [BDBG] (gametic|pagetic|gamestate|gameaction|itemOn|menuactive)$$/ {printf "%s 0x%s\n", $$3, $$1}' | sort > symbols_demo.txt
+	@echo "Wrote symbols_demo.txt ($$(wc -l < symbols_demo.txt) probe symbols)"
+
+.PHONY: all clean wad symbols demo

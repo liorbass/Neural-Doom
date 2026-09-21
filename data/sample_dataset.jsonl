@@ -1,0 +1,450 @@
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802b1cb5\n[REG x9] 802b1d30", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 000003a4", "next": "[NPC] 800357f8\n[W_REG x15] 000003a4"}
+{"state": "[CMD] STEP\n[PC] 80035800\n[INST] lbu x14, 1(x15)\n[REG x15] 800bc218", "next": "[NPC] 80035804\n[W_REG x14] 00000038"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 8100c184", "next": "[NPC] 8003583c\n[W_REG x13] 8100c184"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035850\n[INST] slli x14, x14, 2\n[REG x14] 00000004", "next": "[NPC] 80035854\n[W_REG x14] 00000004"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 00af7c00\n[REG x14] 00007c00", "next": "[NPC] 80035830\n[W_REG x15] 00af7c00"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 800357fc\n[INST] lbu x10, 0(x15)\n[REG x15] 800bc354", "next": "[NPC] 80035800\n[W_REG x10] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 8102a2dc\n[REG x15] 00500101", "next": "[NPC] 80035844\n[W_MEM 8102a2dc] 00500101"}
+{"state": "[CMD] STEP\n[PC] 8003584c\n[INST] bne x14, x12, -12\n[REG x14] 00000001\n[REG x12] 00000001", "next": "[NPC] 80035850"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 81030dd0\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 81030dd0"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00000100\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00000100"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00bfbfbf\n[REG x10] 000000bf", "next": "[NPC] 80035838\n[W_REG x15] 00bfbfbf"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 8103e3b8\n[REG x15] 00010101", "next": "[NPC] 80035844\n[W_MEM 8103e3b8] 00010101"}
+{"state": "[CMD] STEP\n[PC] 800308ac\n[INST] bne x15, x12, -16\n[REG x15] 802d51d2\n[REG x12] 802d520b", "next": "[NPC] 8003089c"}
+{"state": "[CMD] STEP\n[PC] 8003089c\n[INST] lbu x11, 0(x15)\n[REG x15] 802d9fe0", "next": "[NPC] 800308a0\n[W_REG x11] 00000000"}
+{"state": "[CMD] STEP\n[PC] 800308a8\n[INST] sb x11, -320(x14)\n[REG x14] 802ba3ff\n[REG x11] 00000005", "next": "[NPC] 800308ac\n[W_MEM 802ba2bf] 00000005"}
+{"state": "[CMD] STEP\n[PC] 800308a4\n[INST] addi x14, x14, 320\n[REG x14] 802b5856", "next": "[NPC] 800308a8\n[W_REG x14] 802b5856"}
+{"state": "[CMD] STEP\n[PC] 80035f40\n[INST] bne x15, x11, -16\n[REG x15] 806fbfcc\n[REG x11] 806fc0c0", "next": "[NPC] 80035f30"}
+{"state": "[CMD] STEP\n[PC] 80030898\n[INST] addi x15, x10, 3\n[REG x10] 802e8d53", "next": "[NPC] 8003089c\n[W_REG x15] 802e8d56"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 0000006c\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 0000006c"}
+{"state": "[CMD] STEP\n[PC] 8003583c\n[INST] addi x14, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80035840\n[W_REG x14] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 81009754", "next": "[NPC] 8003584c\n[W_REG x13] 81009754"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 009b0000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 009b0000"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000001\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000001"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 00000130", "next": "[NPC] 800357f8\n[W_REG x15] 00000130"}
+{"state": "[CMD] STEP\n[PC] 80035800\n[INST] lbu x14, 1(x15)\n[REG x15] 800bc364", "next": "[NPC] 80035804\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035850\n[INST] slli x14, x14, 2\n[REG x14] 00000004", "next": "[NPC] 80035854\n[W_REG x14] 00000004"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802bbff9\n[REG x9] 802bc0f0", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 00440100\n[REG x14] 00000100", "next": "[NPC] 80035830\n[W_REG x15] 00440100"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 81034e94", "next": "[NPC] 8003583c\n[W_REG x13] 81034e94"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 800308a0\n[INST] addi x15, x15, 1\n[REG x15] 802d1407", "next": "[NPC] 800308a4\n[W_REG x15] 802d1407"}
+{"state": "[CMD] STEP\n[PC] 800308ac\n[INST] bne x15, x12, -16\n[REG x15] 802d6212\n[REG x12] 802d625f", "next": "[NPC] 8003089c"}
+{"state": "[CMD] STEP\n[PC] 8003089c\n[INST] lbu x11, 0(x15)\n[REG x15] 802db020", "next": "[NPC] 800308a0\n[W_REG x11] 000000ba"}
+{"state": "[CMD] STEP\n[PC] 800308a8\n[INST] sb x11, -320(x14)\n[REG x14] 802b8b13\n[REG x11] 000000b7", "next": "[NPC] 800308ac\n[W_MEM 802b89d3] 000000b7"}
+{"state": "[CMD] STEP\n[PC] 800308a0\n[INST] addi x15, x15, 1\n[REG x15] 802ea2a1", "next": "[NPC] 800308a4\n[W_REG x15] 802ea2a1"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 81000350\n[REG x15] 00a70101", "next": "[NPC] 80035844\n[W_MEM 81000350] 00a70101"}
+{"state": "[CMD] STEP\n[PC] 8003584c\n[INST] bne x14, x12, -12\n[REG x14] 00000001\n[REG x12] 00000001", "next": "[NPC] 80035850"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 81006e44\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 81006e44"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00000100\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00000100"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00181008\n[REG x10] 00000008", "next": "[NPC] 80035838\n[W_REG x15] 00181008"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc43c", "next": "[NPC] 800357fc\n[W_REG x15] 800bc43c"}
+{"state": "[CMD] STEP\n[PC] 80035804\n[INST] lbu x15, 2(x15)\n[REG x15] 000000af", "next": "[NPC] 80035808\n[W_REG x15] 000000af"}
+{"state": "[CMD] STEP\n[PC] 80035810\n[INST] lw x12, 1068(x22)\n[REG x22] 80082000", "next": "[NPC] 80035814\n[W_REG x12] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 8101e4ac", "next": "[NPC] 8003584c\n[W_REG x13] 8101e4ac"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802b9af9", "next": "[NPC] 80035858\n[W_REG x23] 802b9af9"}
+{"state": "[CMD] STEP\n[PC] 800357ec\n[INST] lbu x15, 0(x23)\n[REG x23] 802ba857", "next": "[NPC] 800357f0\n[W_REG x15] 0000007f"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc34c", "next": "[NPC] 800357fc\n[W_REG x15] 800bc34c"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000020\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000020"}
+{"state": "[CMD] STEP\n[PC] 8003583c\n[INST] addi x14, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80035840\n[W_REG x14] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 81032588", "next": "[NPC] 8003584c\n[W_REG x13] 81032588"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 00c30000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 00c30000"}
+{"state": "[CMD] STEP\n[PC] 800308a4\n[INST] addi x14, x14, 320\n[REG x14] 802bf58a", "next": "[NPC] 800308a8\n[W_REG x14] 802bf58a"}
+{"state": "[CMD] STEP\n[PC] 8003089c\n[INST] lbu x11, 0(x15)\n[REG x15] 802d7438", "next": "[NPC] 800308a0\n[W_REG x11] 00000080"}
+{"state": "[CMD] STEP\n[PC] 800308ac\n[INST] bne x15, x12, -16\n[REG x15] 802dc245\n[REG x12] 802dc2b5", "next": "[NPC] 8003089c"}
+{"state": "[CMD] STEP\n[PC] 8003089c\n[INST] lbu x11, 0(x15)\n[REG x15] 802e1053", "next": "[NPC] 800308a0\n[W_REG x11] 0000002d"}
+{"state": "[CMD] STEP\n[PC] 80035f30\n[INST] add x13, x14, x15\n[REG x14] 00509b40\n[REG x15] 806fbfb7", "next": "[NPC] 80035f34\n[W_REG x13] 80c05af7"}
+{"state": "[CMD] STEP\n[PC] 80035f30\n[INST] add x13, x14, x15\n[REG x14] 00509740\n[REG x15] 806fbd6d", "next": "[NPC] 80035f34\n[W_REG x13] 80c054ad"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802b1567", "next": "[NPC] 80035858\n[W_REG x23] 802b1567"}
+{"state": "[CMD] STEP\n[PC] 800357ec\n[INST] lbu x15, 0(x23)\n[REG x23] 802b22c5", "next": "[NPC] 800357f0\n[W_REG x15] 000000ba"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc43c", "next": "[NPC] 800357fc\n[W_REG x15] 800bc43c"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000083\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000083"}
+{"state": "[CMD] STEP\n[PC] 8003583c\n[INST] addi x14, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80035840\n[W_REG x14] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 81010f40", "next": "[NPC] 8003584c\n[W_REG x13] 81010f40"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 008b0000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 008b0000"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000001\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000001"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 00000008", "next": "[NPC] 800357f8\n[W_REG x15] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035800\n[INST] lbu x14, 1(x15)\n[REG x15] 800bc350", "next": "[NPC] 80035804\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035850\n[INST] slli x14, x14, 2\n[REG x14] 00000004", "next": "[NPC] 80035854\n[W_REG x14] 00000004"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802bddf4\n[REG x9] 802bdef0", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 00af7c00\n[REG x14] 00007c00", "next": "[NPC] 80035830\n[W_REG x15] 00af7c00"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 8103c680", "next": "[NPC] 8003583c\n[W_REG x13] 8103c680"}
+{"state": "[CMD] STEP\n[PC] 80035f34\n[INST] lbu x13, 0(x13)\n[REG x13] 00000002", "next": "[NPC] 80035f38\n[W_REG x13] 00000002"}
+{"state": "[CMD] STEP\n[PC] 80035f40\n[INST] bne x15, x11, -16\n[REG x15] 806fbe86\n[REG x11] 806fc0c0", "next": "[NPC] 80035f30"}
+{"state": "[CMD] STEP\n[PC] 80021174\n[INST] lbu x13, 20(s0)\n[REG s0] 802fcd46", "next": "[NPC] 80021178\n[W_REG x13] 000000ff"}
+{"state": "[CMD] STEP\n[PC] 80035f38\n[INST] addi x15, x15, 1\n[REG x15] 806fbf5c", "next": "[NPC] 80035f3c\n[W_REG x15] 806fbf5c"}
+{"state": "[CMD] STEP\n[PC] 80034514\n[INST] xor x10, x11, x10\n[REG x11] ca98b880\n[REG x10] 7ccc7d44", "next": "[NPC] 80034518\n[W_REG x10] 7ccc7d44"}
+{"state": "[CMD] STEP\n[PC] 80034518\n[INST] andi x15, x15, 3\n[REG x15] 00000001", "next": "[NPC] 8003451c\n[W_REG x15] 00000001"}
+{"state": "[CMD] STEP\n[PC] 8003f008\n[INST] add x13, x17, x15\n[REG x17] 8006bb89\n[REG x15] 00000042", "next": "[NPC] 8003f00c\n[W_REG x13] 8006bbcb"}
+{"state": "[CMD] STEP\n[PC] 80021834\n[INST] lw x13, -1400(x21)\n[REG x21] 800bd000", "next": "[NPC] 80021838\n[W_REG x13] 802faea4"}
+{"state": "[CMD] STEP\n[PC] 80035f40\n[INST] bne x15, x11, -16\n[REG x15] 806fbfe1\n[REG x11] 806fc0c0", "next": "[NPC] 80035f30"}
+{"state": "[CMD] STEP\n[PC] 8002155c\n[INST] lbu x15, 5(x9)\n[REG x9] 8030e3fc", "next": "[NPC] 80021560\n[W_REG x15] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035f30\n[INST] add x13, x14, x15\n[REG x14] 0031bf40\n[REG x15] 806fbdfc", "next": "[NPC] 80035f34\n[W_REG x13] 80a17d3c"}
+{"state": "[CMD] STEP\n[PC] 80020e34\n[INST] lbu x10, 2(x19)\n[REG x19] 8031b2f4", "next": "[NPC] 80020e38\n[W_REG x10] 000000f7"}
+{"state": "[CMD] STEP\n[PC] 80052d80\n[INST] beq x11, zero, 16\n[REG x11] ffffffff\n[REG zero] 00000000", "next": "[NPC] 80052d84"}
+{"state": "[CMD] STEP\n[PC] 8003527c\n[INST] lw x23, 12(sp)\n[REG sp] 80effe20", "next": "[NPC] 80035280\n[W_REG x23] 800562cc"}
+{"state": "[CMD] STEP\n[PC] 8003f848\n[INST] lw x16, 28(x11)\n[REG x11] 806fbf6c", "next": "[NPC] 8003f84c\n[W_REG x16] f1f3cecc"}
+{"state": "[CMD] STEP\n[PC] 80035f38\n[INST] addi x15, x15, 1\n[REG x15] 806fc0aa", "next": "[NPC] 80035f3c\n[W_REG x15] 806fc0aa"}
+{"state": "[CMD] STEP\n[PC] 80035f38\n[INST] addi x15, x15, 1\n[REG x15] 806fbfc4", "next": "[NPC] 80035f3c\n[W_REG x15] 806fbfc4"}
+{"state": "[CMD] STEP\n[PC] 80035f34\n[INST] lbu x13, 0(x13)\n[REG x13] 0000006c", "next": "[NPC] 80035f38\n[W_REG x13] 0000006c"}
+{"state": "[CMD] STEP\n[PC] 80035f30\n[INST] add x13, x14, x15\n[REG x14] 006f2740\n[REG x15] 806fbeba", "next": "[NPC] 80035f34\n[W_REG x13] 80dee5fa"}
+{"state": "[CMD] STEP\n[PC] 80035f38\n[INST] addi x15, x15, 1\n[REG x15] 806fbe4d", "next": "[NPC] 80035f3c\n[W_REG x15] 806fbe4d"}
+{"state": "[CMD] STEP\n[PC] 80026c24\n[INST] add x15, x15, x13\n[REG x15] 000505b4\n[REG x13] 0005005c", "next": "[NPC] 80026c28\n[W_REG x15] 000505b4"}
+{"state": "[CMD] STEP\n[PC] 80052d14\n[INST] add x10, x10, x12\n[REG x10] 00030c00\n[REG x12] 00020000", "next": "[NPC] 80052d18\n[W_REG x10] 00030c00"}
+{"state": "[CMD] STEP\n[PC] 8003089c\n[INST] lbu x11, 0(x15)\n[REG x15] 802a4715", "next": "[NPC] 800308a0\n[W_REG x11] 00000005"}
+{"state": "[CMD] STEP\n[PC] 80052e00\n[INST] bne x13, zero, -20\n[REG x13] 00000080\n[REG zero] 00000000", "next": "[NPC] 80052dec"}
+{"state": "[CMD] STEP\n[PC] 8003f818\n[INST] addi x14, x14, 1\n[REG x14] 803498f1", "next": "[NPC] 8003f81c\n[W_REG x14] 803498f1"}
+{"state": "[CMD] STEP\n[PC] 80052dc8\n[INST] addi x10, zero, -1\n[REG zero] 00000000", "next": "[NPC] 80052dcc\n[W_REG x10] ffffffff"}
+{"state": "[CMD] STEP\n[PC] 800299ec\n[INST] lw x10, -880(x22)\n[REG x22] 800bd000", "next": "[NPC] 800299f0\n[W_REG x10] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80052de0\n[INST] slli x13, x13, 1\n[REG x13] 00000010", "next": "[NPC] 80052de4\n[W_REG x13] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80052d60\n[INST] sltu x31, x17, x16\n[REG x17] f95f6000\n[REG x16] ff7f6000", "next": "[NPC] 80052d64\n[W_REG x31] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80029b00\n[INST] srai x14, x11, 12\n[REG x11] 00006021", "next": "[NPC] 80029b04\n[W_REG x14] 00000006"}
+{"state": "[CMD] STEP\n[PC] 80034b80\n[INST] bgeu x10, x15, 60\n[REG x10] 0000047e\n[REG x15] 000004f0", "next": "[NPC] 80034b84"}
+{"state": "[CMD] STEP\n[PC] 80052d68\n[INST] beq x29, zero, 12\n[REG x29] 00000000\n[REG zero] 00000000", "next": "[NPC] 80052d74"}
+{"state": "[CMD] STEP\n[PC] 80052d6c\n[INST] addi x16, x17, 0\n[REG x17] 565feb0b", "next": "[NPC] 80052d70\n[W_REG x16] 565feb0b"}
+{"state": "[CMD] STEP\n[PC] 8000ca4c\n[INST] jal ra, 287452", "next": "[NPC] 80052d28\n[W_REG ra] 8000ca50"}
+{"state": "[CMD] STEP\n[PC] 8003f820\n[INST] sb x15, -1(x14)\n[REG x14] 8034bd80\n[REG x15] 00000067", "next": "[NPC] 8003f824\n[W_MEM 8034bd7f] 00000067"}
+{"state": "[CMD] STEP\n[PC] 80052dd8\n[INST] bge zero, x12, 16\n[REG zero] 00000000\n[REG x12] 00034800", "next": "[NPC] 80052ddc"}
+{"state": "[CMD] STEP\n[PC] 80052d20\n[INST] bne x11, zero, -20\n[REG x11] 0003ffff\n[REG zero] 00000000", "next": "[NPC] 80052d0c"}
+{"state": "[CMD] STEP\n[PC] 800275b8\n[INST] and x15, x15, x17\n[REG x15] 00000040\n[REG x17] 00000fc0", "next": "[NPC] 800275bc\n[W_REG x15] 00000040"}
+{"state": "[CMD] STEP\n[PC] 800275b8\n[INST] and x15, x15, x17\n[REG x15] 00000b40\n[REG x17] 00000fc0", "next": "[NPC] 800275bc\n[W_REG x15] 00000b40"}
+{"state": "[CMD] STEP\n[PC] 80052d48\n[INST] addi x16, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80052d4c\n[W_REG x16] 00000000"}
+{"state": "[CMD] STEP\n[PC] 800292fc\n[INST] bge x24, x15, -36\n[REG x24] 0000013f\n[REG x15] 00000114", "next": "[NPC] 800292d8"}
+{"state": "[CMD] STEP\n[PC] 80052d78\n[INST] or x15, x15, x28\n[REG x15] 00000000\n[REG x28] 00000000", "next": "[NPC] 80052d7c\n[W_REG x15] 00000000"}
+{"state": "[CMD] STEP\n[PC] 800275d4\n[INST] add x15, x15, x12\n[REG x15] 8029a540\n[REG x12] 0000006c", "next": "[NPC] 800275d8\n[W_REG x15] 8029a540"}
+{"state": "[CMD] STEP\n[PC] 800275d8\n[INST] lbu x15, 0(x15)\n[REG x15] 00000005", "next": "[NPC] 800275dc\n[W_REG x15] 00000005"}
+{"state": "[CMD] STEP\n[PC] 80052d78\n[INST] or x15, x15, x28\n[REG x15] 003fffe4\n[REG x28] 00000000", "next": "[NPC] 80052d7c\n[W_REG x15] 003fffe4"}
+{"state": "[CMD] STEP\n[PC] 80029048\n[INST] xori x15, x15, 1\n[REG x15] 00000000", "next": "[NPC] 8002904c\n[W_REG x15] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80052d74\n[INST] slli x13, x13, 1\n[REG x13] fffe958c", "next": "[NPC] 80052d78\n[W_REG x13] fffe958c"}
+{"state": "[CMD] STEP\n[PC] 8003f850\n[INST] lw x13, 32(x11)\n[REG x11] 802b20ac", "next": "[NPC] 8003f854\n[W_REG x13] 6e6f6f6f"}
+{"state": "[CMD] STEP\n[PC] 8003f834\n[INST] lw x31, 8(x11)\n[REG x11] 8033be64", "next": "[NPC] 8003f838\n[W_REG x31] a5a5454a"}
+{"state": "[CMD] STEP\n[PC] 80006714\n[INST] add x14, x14, x10\n[REG x14] 80366c28\n[REG x10] 00000190", "next": "[NPC] 80006718\n[W_REG x14] 80366c28"}
+{"state": "[CMD] STEP\n[PC] 8003f870\n[INST] sw x28, -16(x14)\n[REG x14] 8033bb28\n[REG x28] 8089b9b9", "next": "[NPC] 8003f874\n[W_MEM 8033bb18] 8089b9b9"}
+{"state": "[CMD] STEP\n[PC] 80006718\n[INST] bne x15, x12, -16\n[REG x15] 80353c32\n[REG x12] 80353c3c", "next": "[NPC] 80006708"}
+{"state": "[CMD] STEP\n[PC] 8003f848\n[INST] lw x16, 28(x11)\n[REG x11] 80360df8", "next": "[NPC] 8003f84c\n[W_REG x16] 05050505"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802be828\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802be828"}
+{"state": "[CMD] STEP\n[PC] 800357c0\n[INST] addi x18, x18, 104\n[REG x18] 800bc068", "next": "[NPC] 800357c4\n[W_REG x18] 800bc068"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 8100fdf4\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 8100fdf4"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 800357fc\n[INST] lbu x10, 0(x15)\n[REG x15] 800bc068", "next": "[NPC] 80035800\n[W_REG x10] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00440101\n[REG x10] 00000001", "next": "[NPC] 80035838\n[W_REG x15] 00440101"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 8101d3dc\n[REG x15] 00440101", "next": "[NPC] 80035844\n[W_MEM 8101d3dc] 00440101"}
+{"state": "[CMD] STEP\n[PC] 8003584c\n[INST] bne x14, x12, -12\n[REG x14] 00000001\n[REG x12] 00000001", "next": "[NPC] 80035850"}
+{"state": "[CMD] STEP\n[PC] 80035810\n[INST] lw x12, 1068(x22)\n[REG x22] 80082000", "next": "[NPC] 80035814\n[W_REG x12] 00000001"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00000100\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00000100"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00d70101\n[REG x10] 00000001", "next": "[NPC] 80035838\n[W_REG x15] 00d70101"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc070", "next": "[NPC] 800357fc\n[W_REG x15] 800bc070"}
+{"state": "[CMD] STEP\n[PC] 80035804\n[INST] lbu x15, 2(x15)\n[REG x15] 00000048", "next": "[NPC] 80035808\n[W_REG x15] 00000048"}
+{"state": "[CMD] STEP\n[PC] 80035810\n[INST] lw x12, 1068(x22)\n[REG x22] 80082000", "next": "[NPC] 80035814\n[W_REG x12] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 8103b538", "next": "[NPC] 8003584c\n[W_REG x13] 8103b538"}
+{"state": "[CMD] STEP\n[PC] 80006610\n[INST] sh x11, 0(x15)\n[REG x15] 802b3dd0\n[REG x11] ffffbece", "next": "[NPC] 80006614\n[W_MEM 802b3dd0] 0000bece"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802bc4ca\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802bc4ca"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802bb44a\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802bb44a"}
+{"state": "[CMD] STEP\n[PC] 80006608\n[INST] lh x11, 0(s0)\n[REG s0] 80342648", "next": "[NPC] 8000660c\n[W_REG x11] ffffcff2"}
+{"state": "[CMD] STEP\n[PC] 80006618\n[INST] bne x9, s0, -16\n[REG x9] 8033c69e\n[REG s0] 8033c560", "next": "[NPC] 80006608"}
+{"state": "[CMD] STEP\n[PC] 800065b8\n[INST] slli x10, x28, 1\n[REG x28] 00000010", "next": "[NPC] 800065bc\n[W_REG x10] 00000020"}
+{"state": "[CMD] STEP\n[PC] 80006618\n[INST] bne x9, s0, -16\n[REG x9] 803435ae\n[REG s0] 803434e4", "next": "[NPC] 80006608"}
+{"state": "[CMD] STEP\n[PC] 8000660c\n[INST] addi s0, s0, 2\n[REG s0] 8033d8cc", "next": "[NPC] 80006610\n[W_REG s0] 8033d8cc"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802baf7e\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802baf7e"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802b6e0c\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802b6e0c"}
+{"state": "[CMD] STEP\n[PC] 8000660c\n[INST] addi s0, s0, 2\n[REG s0] 8033cc6c", "next": "[NPC] 80006610\n[W_REG s0] 8033cc6c"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00002800\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00002800"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00282828\n[REG x10] 00000028", "next": "[NPC] 80035838\n[W_REG x15] 00282828"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc220", "next": "[NPC] 800357fc\n[W_REG x15] 800bc220"}
+{"state": "[CMD] STEP\n[PC] 80035804\n[INST] lbu x15, 2(x15)\n[REG x15] 00000074", "next": "[NPC] 80035808\n[W_REG x15] 00000074"}
+{"state": "[CMD] STEP\n[PC] 80035810\n[INST] lw x12, 1068(x22)\n[REG x22] 80082000", "next": "[NPC] 80035814\n[W_REG x12] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 81010d64", "next": "[NPC] 8003584c\n[W_REG x13] 81010d64"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802b6527", "next": "[NPC] 80035858\n[W_REG x23] 802b6527"}
+{"state": "[CMD] STEP\n[PC] 800357ec\n[INST] lbu x15, 0(x23)\n[REG x23] 802b7285", "next": "[NPC] 800357f0\n[W_REG x15] 000000f5"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 00cb0000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 00cb0000"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000010\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000010"}
+{"state": "[CMD] STEP\n[PC] 8003583c\n[INST] addi x14, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80035840\n[W_REG x14] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 81024e40", "next": "[NPC] 8003584c\n[W_REG x13] 81024e40"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 00b70000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 00b70000"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802bdd7d\n[REG x9] 802bddb0", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 000002e8", "next": "[NPC] 800357f8\n[W_REG x15] 000002e8"}
+{"state": "[CMD] STEP\n[PC] 80035800\n[INST] lbu x14, 1(x15)\n[REG x15] 800bc258", "next": "[NPC] 80035804\n[W_REG x14] 00000044"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 8103c4a4", "next": "[NPC] 8003583c\n[W_REG x13] 8103c4a4"}
+{"state": "[CMD] STEP\n[PC] 80052d0c\n[INST] andi x13, x11, 1\n[REG x11] 0000000a", "next": "[NPC] 80052d10\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802bd11a\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802bd11a"}
+{"state": "[CMD] STEP\n[PC] 80052d20\n[INST] bne x11, zero, -20\n[REG x11] 00000003\n[REG zero] 00000000", "next": "[NPC] 80052d0c"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802b6dbc\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802b6dbc"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802b8df0\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802b8df0"}
+{"state": "[CMD] STEP\n[PC] 80006618\n[INST] bne x9, s0, -16\n[REG x9] 8033706e\n[REG s0] 80337064", "next": "[NPC] 80006608"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802b9f02\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802b9f02"}
+{"state": "[CMD] STEP\n[PC] 8000660c\n[INST] addi s0, s0, 2\n[REG s0] 803429fa", "next": "[NPC] 80006610\n[W_REG s0] 803429fa"}
+{"state": "[CMD] STEP\n[PC] 80006618\n[INST] bne x9, s0, -16\n[REG x9] 80341a4e\n[REG s0] 80341a08", "next": "[NPC] 80006608"}
+{"state": "[CMD] STEP\n[PC] 80006610\n[INST] sh x11, 0(x15)\n[REG x15] 802bc58a\n[REG x11] ffffbbeb", "next": "[NPC] 80006614\n[W_MEM 802bc58a] 0000bbeb"}
+{"state": "[CMD] STEP\n[PC] 800065d4\n[INST] bne x10, s0, -16\n[REG x10] 803589aa\n[REG s0] 803589a0", "next": "[NPC] 800065c4"}
+{"state": "[CMD] STEP\n[PC] 80006614\n[INST] add x15, x15, x27\n[REG x15] 802bfa54\n[REG x27] 00000140", "next": "[NPC] 80006618\n[W_REG x15] 802bfa54"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802b163a\n[REG x9] 802b16f0", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 000001b8", "next": "[NPC] 800357f8\n[W_REG x15] 000001b8"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 001c1c00\n[REG x14] 00001c00", "next": "[NPC] 80035830\n[W_REG x15] 001c1c00"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 8100a798", "next": "[NPC] 8003583c\n[W_REG x13] 8100a798"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 800357a8\n[INST] sw x22, 16(sp)\n[REG sp] 80efff60\n[REG x22] 802c0d30", "next": "[NPC] 800357ac\n[W_MEM 80efff70] 802c0d30"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 800357fc\n[INST] lbu x10, 0(x15)\n[REG x15] 800bc3a4", "next": "[NPC] 80035800\n[W_REG x10] 00000054"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 810288f0\n[REG x15] 001c1c1c", "next": "[NPC] 80035844\n[W_MEM 810288f0] 001c1c1c"}
+{"state": "[CMD] STEP\n[PC] 8003584c\n[INST] bne x14, x12, -12\n[REG x14] 00000001\n[REG x12] 00000001", "next": "[NPC] 80035850"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 8102f3e4\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 8102f3e4"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00000100\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00000100"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00010148\n[REG x10] 00000048", "next": "[NPC] 80035838\n[W_REG x15] 00010148"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc34c", "next": "[NPC] 800357fc\n[W_REG x15] 800bc34c"}
+{"state": "[CMD] STEP\n[PC] 8000660c\n[INST] addi s0, s0, 2\n[REG s0] 80340134", "next": "[NPC] 80006610\n[W_REG s0] 80340134"}
+{"state": "[CMD] STEP\n[PC] 80052d20\n[INST] bne x11, zero, -20\n[REG x11] 00000000\n[REG zero] 00000000", "next": "[NPC] 80052d24"}
+{"state": "[CMD] STEP\n[PC] 80052d10\n[INST] beq x13, zero, 8\n[REG x13] 00000001\n[REG zero] 00000000", "next": "[NPC] 80052d14"}
+{"state": "[CMD] STEP\n[PC] 80052d0c\n[INST] andi x13, x11, 1\n[REG x11] 00000029", "next": "[NPC] 80052d10\n[W_REG x13] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 81000b4c\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 81000b4c"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00002400\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00002400"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00242424\n[REG x10] 00000024", "next": "[NPC] 80035838\n[W_REG x15] 00242424"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 8100e134\n[REG x15] 001c1c1c", "next": "[NPC] 80035844\n[W_MEM 8100e134] 001c1c1c"}
+{"state": "[CMD] STEP\n[PC] 80035804\n[INST] lbu x15, 2(x15)\n[REG x15] 0000001c", "next": "[NPC] 80035808\n[W_REG x15] 0000001c"}
+{"state": "[CMD] STEP\n[PC] 80035810\n[INST] lw x12, 1068(x22)\n[REG x22] 80082000", "next": "[NPC] 80035814\n[W_REG x12] 00000001"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802b823b", "next": "[NPC] 80035858\n[W_REG x23] 802b823b"}
+{"state": "[CMD] STEP\n[PC] 800357ec\n[INST] lbu x15, 0(x23)\n[REG x23] 802b8f99", "next": "[NPC] 800357f0\n[W_REG x15] 0000000f"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc2b4", "next": "[NPC] 800357fc\n[W_REG x15] 800bc2b4"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000014\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000014"}
+{"state": "[CMD] STEP\n[PC] 8003583c\n[INST] addi x14, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80035840\n[W_REG x14] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 8102c290", "next": "[NPC] 8003584c\n[W_REG x13] 8102c290"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802bd272", "next": "[NPC] 80035858\n[W_REG x23] 802bd272"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 00580000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 00580000"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000058\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000058"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 000001bc", "next": "[NPC] 800357f8\n[W_REG x15] 000001bc"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 81000f70\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 81000f70"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00002400\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00002400"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 001c1c1c\n[REG x10] 0000001c", "next": "[NPC] 80035838\n[W_REG x15] 001c1c1c"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc07c", "next": "[NPC] 800357fc\n[W_REG x15] 800bc07c"}
+{"state": "[CMD] STEP\n[PC] 80035804\n[INST] lbu x15, 2(x15)\n[REG x15] 0000001c", "next": "[NPC] 80035808\n[W_REG x15] 0000001c"}
+{"state": "[CMD] STEP\n[PC] 80035810\n[INST] lw x12, 1068(x22)\n[REG x22] 80082000", "next": "[NPC] 80035814\n[W_REG x12] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 810185d8", "next": "[NPC] 8003584c\n[W_REG x13] 810185d8"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802b8344", "next": "[NPC] 80035858\n[W_REG x23] 802b8344"}
+{"state": "[CMD] STEP\n[PC] 800357ec\n[INST] lbu x15, 0(x23)\n[REG x23] 802b90a2", "next": "[NPC] 800357f0\n[W_REG x15] 000000ee"}
+{"state": "[CMD] STEP\n[PC] 800357f8\n[INST] add x15, x18, x15\n[REG x18] 800bc068\n[REG x15] 800bc080", "next": "[NPC] 800357fc\n[W_REG x15] 800bc080"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 00000014\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 00000014"}
+{"state": "[CMD] STEP\n[PC] 8003583c\n[INST] addi x14, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80035840\n[W_REG x14] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 8102c6b4", "next": "[NPC] 8003584c\n[W_REG x13] 8102c6b4"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 00440000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 00440000"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802bfb9a\n[REG x9] 802bfbb0", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 00000160", "next": "[NPC] 800357f8\n[W_REG x15] 00000160"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035c0c\n[INST] jal zero, -88", "next": "[NPC] 80035bb4\n[W_REG zero] 80035c10"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 00242400\n[REG x14] 00002400", "next": "[NPC] 80035830\n[W_REG x15] 00242400"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 800357fc\n[INST] lbu x10, 0(x15)\n[REG x15] 800bc088", "next": "[NPC] 80035800\n[W_REG x10] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 8101c660\n[REG x15] 00505050", "next": "[NPC] 80035844\n[W_MEM 8101c660] 00505050"}
+{"state": "[CMD] STEP\n[PC] 8003584c\n[INST] bne x14, x12, -12\n[REG x14] 00000001\n[REG x12] 00000001", "next": "[NPC] 80035850"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 81023154\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 81023154"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00001c00\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00001c00"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 001c1c1c\n[REG x10] 0000001c", "next": "[NPC] 80035838\n[W_REG x15] 001c1c1c"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 8103073c\n[REG x15] 001c1c1c", "next": "[NPC] 80035844\n[W_MEM 8103073c] 001c1c1c"}
+{"state": "[CMD] STEP\n[PC] 80035804\n[INST] lbu x15, 2(x15)\n[REG x15] 00000058", "next": "[NPC] 80035808\n[W_REG x15] 00000058"}
+{"state": "[CMD] STEP\n[PC] 80035810\n[INST] lw x12, 1068(x22)\n[REG x22] 80082000", "next": "[NPC] 80035814\n[W_REG x12] 00000001"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802c0bbd", "next": "[NPC] 80035858\n[W_REG x23] 802c0bbd"}
+{"state": "[CMD] STEP\n[PC] 80052d20\n[INST] bne x11, zero, -20\n[REG x11] 00000001\n[REG zero] 00000000", "next": "[NPC] 80052d0c"}
+{"state": "[CMD] STEP\n[PC] 80052d74\n[INST] slli x13, x13, 1\n[REG x13] 0013c000", "next": "[NPC] 80052d78\n[W_REG x13] 0013c000"}
+{"state": "[CMD] STEP\n[PC] 80052d18\n[INST] srli x11, x11, 1\n[REG x11] 00001fff", "next": "[NPC] 80052d1c\n[W_REG x11] 00001fff"}
+{"state": "[CMD] STEP\n[PC] 80052d10\n[INST] beq x13, zero, 8\n[REG x13] 00000000\n[REG zero] 00000000", "next": "[NPC] 80052d18"}
+{"state": "[CMD] STEP\n[PC] 80029aa4\n[INST] lw x15, 28(sp)\n[REG sp] 80effe70", "next": "[NPC] 80029aa8\n[W_REG x15] 800928ac"}
+{"state": "[CMD] STEP\n[PC] 80025e0c\n[INST] blt zero, x13, 40\n[REG zero] 00000000\n[REG x13] ffffffff", "next": "[NPC] 80025e10"}
+{"state": "[CMD] STEP\n[PC] 80052d4c\n[INST] add x17, x16, x13\n[REG x16] 2397ee34\n[REG x13] 23980000", "next": "[NPC] 80052d50\n[W_REG x17] 472fee34"}
+{"state": "[CMD] STEP\n[PC] 8002989c\n[INST] add x12, s0, x12\n[REG s0] 800987f0\n[REG x12] 800989ac", "next": "[NPC] 800298a0\n[W_REG x12] 800989ac"}
+{"state": "[CMD] STEP\n[PC] 8004cb2c\n[INST] srl x13, x16, x13\n[REG x16] e0800000\n[REG x13] 00000038", "next": "[NPC] 8004cb30\n[W_REG x13] 00000038"}
+{"state": "[CMD] STEP\n[PC] 80052d5c\n[INST] srli x14, x14, 1\n[REG x14] 000014ff", "next": "[NPC] 80052d60\n[W_REG x14] 000014ff"}
+{"state": "[CMD] STEP\n[PC] 80052d20\n[INST] bne x11, zero, -20\n[REG x11] 0000000b\n[REG zero] 00000000", "next": "[NPC] 80052d0c"}
+{"state": "[CMD] STEP\n[PC] 80052d0c\n[INST] andi x13, x11, 1\n[REG x11] ffffffff", "next": "[NPC] 80052d10\n[W_REG x13] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80052d78\n[INST] or x15, x15, x28\n[REG x15] 00000000\n[REG x28] 00000000", "next": "[NPC] 80052d7c\n[W_REG x15] 00000000"}
+{"state": "[CMD] STEP\n[PC] 800275c4\n[INST] lbu x12, 0(x15)\n[REG x15] 803222b1", "next": "[NPC] 800275c8\n[W_REG x12] 0000006a"}
+{"state": "[CMD] STEP\n[PC] 800275c4\n[INST] lbu x12, 0(x15)\n[REG x15] 80322b88", "next": "[NPC] 800275c8\n[W_REG x12] 00000067"}
+{"state": "[CMD] STEP\n[PC] 800275b4\n[INST] srli x10, x14, 26\n[REG x14] 7bc235f0", "next": "[NPC] 800275b8\n[W_REG x10] 0000001e"}
+{"state": "[CMD] STEP\n[PC] 800275c8\n[INST] lw x15, -1168(x6)\n[REG x6] 800bd000", "next": "[NPC] 800275cc\n[W_REG x15] 80299bd4"}
+{"state": "[CMD] STEP\n[PC] 800275c8\n[INST] lw x15, -1168(x6)\n[REG x6] 800bd000", "next": "[NPC] 800275cc\n[W_REG x15] 80299fd4"}
+{"state": "[CMD] STEP\n[PC] 80052d5c\n[INST] srli x14, x14, 1\n[REG x14] 00000005", "next": "[NPC] 80052d60\n[W_REG x14] 00000005"}
+{"state": "[CMD] STEP\n[PC] 800275ac\n[INST] lw x12, -1188(x28)\n[REG x28] 800bd000", "next": "[NPC] 800275b0\n[W_REG x12] 8032ce6c"}
+{"state": "[CMD] STEP\n[PC] 8002914c\n[INST] jalr zero, ra, 0\n[REG ra] 800292f4", "next": "[NPC] 800292f4\n[W_REG zero] 80029150"}
+{"state": "[CMD] STEP\n[PC] 800290cc\n[INST] bge x19, x9, 52\n[REG x19] 0000005d\n[REG x9] 0000005d", "next": "[NPC] 80029100"}
+{"state": "[CMD] STEP\n[PC] 8002af54\n[INST] lui x15, 2148257792", "next": "[NPC] 8002af58\n[W_REG x15] 800bd000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 81001054", "next": "[NPC] 8003584c\n[W_REG x13] 81001054"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 00240000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 00240000"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 0000001c\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 0000001c"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 00000014", "next": "[NPC] 800357f8\n[W_REG x15] 00000014"}
+{"state": "[CMD] STEP\n[PC] 80035800\n[INST] lbu x14, 1(x15)\n[REG x15] 800bc080", "next": "[NPC] 80035804\n[W_REG x14] 00000014"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035850\n[INST] slli x14, x14, 2\n[REG x14] 00000004", "next": "[NPC] 80035854\n[W_REG x14] 00000004"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802b9e39\n[REG x9] 802b9f30", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 001c1c00\n[REG x14] 00001c00", "next": "[NPC] 80035830\n[W_REG x15] 001c1c00"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 8102c794", "next": "[NPC] 8003583c\n[W_REG x13] 8102c794"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 8103d304\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 8103d304"}
+{"state": "[CMD] STEP\n[PC] 80052d64\n[INST] slli x15, x15, 1\n[REG x15] 0003fffe", "next": "[NPC] 80052d68\n[W_REG x15] 0003fffe"}
+{"state": "[CMD] STEP\n[PC] 800298e4\n[INST] addi x10, x13, 1\n[REG x13] 00000071", "next": "[NPC] 800298e8\n[W_REG x10] 00000072"}
+{"state": "[CMD] STEP\n[PC] 80052d4c\n[INST] add x17, x16, x13\n[REG x16] 084bce55\n[REG x13] b6680000", "next": "[NPC] 80052d50\n[W_REG x17] beb3ce55"}
+{"state": "[CMD] STEP\n[PC] 80028e78\n[INST] lw x13, -952(x6)\n[REG x6] 800bd000", "next": "[NPC] 80028e7c\n[W_REG x13] 800a3a00"}
+{"state": "[CMD] STEP\n[PC] 80052d18\n[INST] srli x11, x11, 1\n[REG x11] 00000645", "next": "[NPC] 80052d1c\n[W_REG x11] 00000645"}
+{"state": "[CMD] STEP\n[PC] 80026d84\n[INST] addi s0, s0, -1\n[REG s0] 00000000", "next": "[NPC] 80026d88\n[W_REG s0] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80052d18\n[INST] srli x11, x11, 1\n[REG x11] 00000018", "next": "[NPC] 80052d1c\n[W_REG x11] 00000018"}
+{"state": "[CMD] STEP\n[PC] 80052dfc\n[INST] srli x12, x12, 1\n[REG x12] 00133040", "next": "[NPC] 80052e00\n[W_REG x12] 00133040"}
+{"state": "[CMD] STEP\n[PC] 80026d88\n[INST] add x10, x10, x12\n[REG x10] 005ccfb6\n[REG x12] 0003360c", "next": "[NPC] 80026d8c\n[W_REG x10] 005ccfb6"}
+{"state": "[CMD] STEP\n[PC] 80029a1c\n[INST] sw x12, -876(x25)\n[REG x25] 800bd000\n[REG x12] 00003872", "next": "[NPC] 80029a20\n[W_MEM 800bcc94] 00003872"}
+{"state": "[CMD] STEP\n[PC] 80052d0c\n[INST] andi x13, x11, 1\n[REG x11] 00000422", "next": "[NPC] 80052d10\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80052d20\n[INST] bne x11, zero, -20\n[REG x11] 00003fff\n[REG zero] 00000000", "next": "[NPC] 80052d0c"}
+{"state": "[CMD] STEP\n[PC] 80052d1c\n[INST] slli x12, x12, 1\n[REG x12] ffff5000", "next": "[NPC] 80052d20\n[W_REG x12] ffff5000"}
+{"state": "[CMD] STEP\n[PC] 800275d4\n[INST] add x15, x15, x12\n[REG x15] 8029aa51\n[REG x12] 0000007d", "next": "[NPC] 800275d8\n[W_REG x15] 8029aa51"}
+{"state": "[CMD] STEP\n[PC] 800275d4\n[INST] add x15, x15, x12\n[REG x15] 8029a63d\n[REG x12] 00000069", "next": "[NPC] 800275d8\n[W_REG x15] 8029a63d"}
+{"state": "[CMD] STEP\n[PC] 80052d1c\n[INST] slli x12, x12, 1\n[REG x12] 37915000", "next": "[NPC] 80052d20\n[W_REG x12] 37915000"}
+{"state": "[CMD] STEP\n[PC] 80052d34\n[INST] addi x7, x10, 0\n[REG x10] 01c09fe8", "next": "[NPC] 80052d38\n[W_REG x7] 01c09fe8"}
+{"state": "[CMD] STEP\n[PC] 800275cc\n[INST] addi x13, x13, 1\n[REG x13] 802b20a1", "next": "[NPC] 800275d0\n[W_REG x13] 802b20a1"}
+{"state": "[CMD] STEP\n[PC] 80052d54\n[INST] add x30, x6, x15\n[REG x6] 00000000\n[REG x15] 00000000", "next": "[NPC] 80052d58\n[W_REG x30] 00000000"}
+{"state": "[CMD] STEP\n[PC] 800275c4\n[INST] lbu x12, 0(x15)\n[REG x15] 8032d4e5", "next": "[NPC] 800275c8\n[W_REG x12] 0000006c"}
+{"state": "[CMD] STEP\n[PC] 800275d8\n[INST] lbu x15, 0(x15)\n[REG x15] 00000005", "next": "[NPC] 800275dc\n[W_REG x15] 00000005"}
+{"state": "[CMD] STEP\n[PC] 800275c0\n[INST] add x15, x12, x15\n[REG x12] 8032feb4\n[REG x15] 80330322", "next": "[NPC] 800275c4\n[W_REG x15] 80330322"}
+{"state": "[CMD] STEP\n[PC] 8002912c\n[INST] lw ra, 28(sp)\n[REG sp] 80efff40", "next": "[NPC] 80029130\n[W_REG ra] 800292f4"}
+{"state": "[CMD] STEP\n[PC] 80052d18\n[INST] srli x11, x11, 1\n[REG x11] 0000049b", "next": "[NPC] 80052d1c\n[W_REG x11] 0000049b"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802b1b70\n[REG x9] 802b1bf0", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 000001bc", "next": "[NPC] 800357f8\n[W_REG x15] 000001bc"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 00242400\n[REG x14] 00002400", "next": "[NPC] 80035830\n[W_REG x15] 00242400"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 8100bc70", "next": "[NPC] 8003583c\n[W_REG x13] 8100bc70"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035850\n[INST] slli x14, x14, 2\n[REG x14] 00000004", "next": "[NPC] 80035854\n[W_REG x14] 00000004"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 001c1c00\n[REG x14] 00001c00", "next": "[NPC] 80035830\n[W_REG x15] 001c1c00"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 800357fc\n[INST] lbu x10, 0(x15)\n[REG x15] 800bc3a4", "next": "[NPC] 80035800\n[W_REG x10] 00000054"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 81029dc8\n[REG x15] 000c0c0c", "next": "[NPC] 80035844\n[W_MEM 81029dc8] 000c0c0c"}
+{"state": "[CMD] STEP\n[PC] 8003584c\n[INST] bne x14, x12, -12\n[REG x14] 00000001\n[REG x12] 00000001", "next": "[NPC] 80035850"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 810308bc\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 810308bc"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00006c00\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00006c00"}
+{"state": "[CMD] STEP\n[PC] 80035834\n[INST] or x15, x15, x10\n[REG x15] 00646464\n[REG x10] 00000064", "next": "[NPC] 80035838\n[W_REG x15] 00646464"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 8103dea4\n[REG x15] 00646464", "next": "[NPC] 80035844\n[W_MEM 8103dea4] 00646464"}
+{"state": "[CMD] STEP\n[PC] 80022084\n[INST] sw x11, 4(sp)\n[REG sp] 80effbe0\n[REG x11] f2980000", "next": "[NPC] 80022088\n[W_MEM 80effbe4] f2980000"}
+{"state": "[CMD] STEP\n[PC] 8003f854\n[INST] addi x14, x14, 36\n[REG x14] 802bebc4", "next": "[NPC] 8003f858\n[W_REG x14] 802bebc4"}
+{"state": "[CMD] STEP\n[PC] 80026d84\n[INST] addi s0, s0, -1\n[REG s0] 00000027", "next": "[NPC] 80026d88\n[W_REG s0] 00000027"}
+{"state": "[CMD] STEP\n[PC] 80026d90\n[INST] lbu x15, 0(x15)\n[REG x15] 00000001", "next": "[NPC] 80026d94\n[W_REG x15] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80026d8c\n[INST] add x15, x15, x14\n[REG x15] 80299e66\n[REG x14] 00000092", "next": "[NPC] 80026d90\n[W_REG x15] 80299e66"}
+{"state": "[CMD] STEP\n[PC] 80052d60\n[INST] sltu x31, x17, x16\n[REG x17] 000004cf\n[REG x16] 00000000", "next": "[NPC] 80052d64\n[W_REG x31] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80052d64\n[INST] slli x15, x15, 1\n[REG x15] 0000000e", "next": "[NPC] 80052d68\n[W_REG x15] 0000000e"}
+{"state": "[CMD] STEP\n[PC] 80052dec\n[INST] bltu x11, x12, 12\n[REG x11] 9e630000\n[REG x12] d83a0000", "next": "[NPC] 80052df8"}
+{"state": "[CMD] STEP\n[PC] 80052d58\n[INST] srli x28, x13, 31\n[REG x13] 9e400000", "next": "[NPC] 80052d5c\n[W_REG x28] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80052d54\n[INST] add x30, x6, x15\n[REG x6] 000000a1\n[REG x15] 000003ff", "next": "[NPC] 80052d58\n[W_REG x30] 000004a0"}
+{"state": "[CMD] STEP\n[PC] 80052d74\n[INST] slli x13, x13, 1\n[REG x13] f2500000", "next": "[NPC] 80052d78\n[W_REG x13] f2500000"}
+{"state": "[CMD] STEP\n[PC] 8000ca3c\n[INST] addi x12, x11, 0\n[REG x11] 00020144", "next": "[NPC] 8000ca40\n[W_REG x12] 00020144"}
+{"state": "[CMD] STEP\n[PC] 80052d58\n[INST] srli x28, x13, 31\n[REG x13] 00093c20", "next": "[NPC] 80052d5c\n[W_REG x28] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80052d64\n[INST] slli x15, x15, 1\n[REG x15] 00ffff4a", "next": "[NPC] 80052d68\n[W_REG x15] 00ffff4a"}
+{"state": "[CMD] STEP\n[PC] 800275c4\n[INST] lbu x12, 0(x15)\n[REG x15] 80322ae0", "next": "[NPC] 800275c8\n[W_REG x12] 0000006d"}
+{"state": "[CMD] STEP\n[PC] 800275cc\n[INST] addi x13, x13, 1\n[REG x13] 802bcb83", "next": "[NPC] 800275d0\n[W_REG x13] 802bcb83"}
+{"state": "[CMD] STEP\n[PC] 800275c4\n[INST] lbu x12, 0(x15)\n[REG x15] 803228b7", "next": "[NPC] 800275c8\n[W_REG x12] 0000006f"}
+{"state": "[CMD] STEP\n[PC] 80052d74\n[INST] slli x13, x13, 1\n[REG x13] 5a678000", "next": "[NPC] 80052d78\n[W_REG x13] 5a678000"}
+{"state": "[CMD] STEP\n[PC] 800275cc\n[INST] addi x13, x13, 1\n[REG x13] 802b2de1", "next": "[NPC] 800275d0\n[W_REG x13] 802b2de1"}
+{"state": "[CMD] STEP\n[PC] 800275dc\n[INST] sb x15, -1(x13)\n[REG x13] 802b4251\n[REG x15] 0000006f", "next": "[NPC] 800275e0\n[W_MEM 802b4250] 0000006f"}
+{"state": "[CMD] STEP\n[PC] 800275c8\n[INST] lw x15, -1168(x6)\n[REG x6] 800bd000", "next": "[NPC] 800275cc\n[W_REG x15] 8029a8d4"}
+{"state": "[CMD] STEP\n[PC] 800275c8\n[INST] lw x15, -1168(x6)\n[REG x6] 800bd000", "next": "[NPC] 800275cc\n[W_REG x15] 802999d4"}
+{"state": "[CMD] STEP\n[PC] 80052d54\n[INST] add x30, x6, x15\n[REG x6] 00000001\n[REG x15] 00000003", "next": "[NPC] 80052d58\n[W_REG x30] 00000004"}
+{"state": "[CMD] STEP\n[PC] 800275d4\n[INST] add x15, x15, x12\n[REG x15] 8029ae3b\n[REG x12] 00000067", "next": "[NPC] 800275d8\n[W_REG x15] 8029ae3b"}
+{"state": "[CMD] STEP\n[PC] 80026d8c\n[INST] add x15, x15, x14\n[REG x15] 802998d4\n[REG x14] 00000000", "next": "[NPC] 80026d90\n[W_REG x15] 802998d4"}
+{"state": "[CMD] STEP\n[PC] 8003583c\n[INST] addi x14, zero, 0\n[REG zero] 00000000", "next": "[NPC] 80035840\n[W_REG x14] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035848\n[INST] addi x13, x13, 4\n[REG x13] 81006190", "next": "[NPC] 8003584c\n[W_REG x13] 81006190"}
+{"state": "[CMD] STEP\n[PC] 80035854\n[INST] addi x23, x23, 1\n[REG x23] 802b3a32", "next": "[NPC] 80035858\n[W_REG x23] 802b3a32"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035824\n[INST] sll x15, x15, x16\n[REG x15] 001c0000\n[REG x16] 00000010", "next": "[NPC] 80035828\n[W_REG x15] 001c0000"}
+{"state": "[CMD] STEP\n[PC] 80035830\n[INST] sll x10, x10, x13\n[REG x10] 0000001c\n[REG x13] 00000000", "next": "[NPC] 80035834\n[W_REG x10] 0000001c"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 000001b0", "next": "[NPC] 800357f8\n[W_REG x15] 000001b0"}
+{"state": "[CMD] STEP\n[PC] 80035800\n[INST] lbu x14, 1(x15)\n[REG x15] 800bc07c", "next": "[NPC] 80035804\n[W_REG x14] 0000001c"}
+{"state": "[CMD] STEP\n[PC] 8003580c\n[INST] bne x11, x20, -48\n[REG x11] 00000020\n[REG x20] 00000020", "next": "[NPC] 80035810"}
+{"state": "[CMD] STEP\n[PC] 80035818\n[INST] lw x16, 20(x24)\n[REG x24] 800bc468", "next": "[NPC] 8003581c\n[W_REG x16] 00000010"}
+{"state": "[CMD] STEP\n[PC] 80035850\n[INST] slli x14, x14, 2\n[REG x14] 00000004", "next": "[NPC] 80035854\n[W_REG x14] 00000004"}
+{"state": "[CMD] STEP\n[PC] 8003585c\n[INST] bne x23, x9, -112\n[REG x23] 802bb288\n[REG x9] 802bb330", "next": "[NPC] 800357ec"}
+{"state": "[CMD] STEP\n[PC] 800357f4\n[INST] slli x15, x15, 2\n[REG x15] 00000018", "next": "[NPC] 800357f8\n[W_REG x15] 00000018"}
+{"state": "[CMD] STEP\n[PC] 8003582c\n[INST] or x15, x15, x14\n[REG x15] 001c1c00\n[REG x14] 00001c00", "next": "[NPC] 80035830\n[W_REG x15] 001c1c00"}
+{"state": "[CMD] STEP\n[PC] 80035838\n[INST] addi x13, s0, 0\n[REG s0] 810318d0", "next": "[NPC] 8003583c\n[W_REG x13] 810318d0"}
+{"state": "[CMD] STEP\n[PC] 80035844\n[INST] addi x14, x14, 1\n[REG x14] 00000001", "next": "[NPC] 80035848\n[W_REG x14] 00000001"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80052d18\n[INST] srli x11, x11, 1\n[REG x11] 03ffffe0", "next": "[NPC] 80052d1c\n[W_REG x11] 03ffffe0"}
+{"state": "[CMD] STEP\n[PC] 800308ac\n[INST] bne x15, x12, -16\n[REG x15] 802a06ba\n[REG x12] 802a06be", "next": "[NPC] 8003089c"}
+{"state": "[CMD] STEP\n[PC] 80026d98\n[INST] sb x15, -320(x13)\n[REG x13] 802b64a6\n[REG x15] 0000008c", "next": "[NPC] 80026d9c\n[W_MEM 802b6366] 0000008c"}
+{"state": "[CMD] STEP\n[PC] 80026cd0\n[INST] lw x13, -1120(x16)\n[REG x16] 800bd000", "next": "[NPC] 80026cd4\n[W_REG x13] 00000017"}
+{"state": "[CMD] STEP\n[PC] 80052d54\n[INST] add x30, x6, x15\n[REG x6] 00038298\n[REG x15] 0003fffc", "next": "[NPC] 80052d58\n[W_REG x30] 00078294"}
+{"state": "[CMD] STEP\n[PC] 80029aac\n[INST] lui x12, 2148257792", "next": "[NPC] 80029ab0\n[W_REG x12] 800bd000"}
+{"state": "[CMD] STEP\n[PC] 80052d5c\n[INST] srli x14, x14, 1\n[REG x14] 00000ffc", "next": "[NPC] 80052d60\n[W_REG x14] 00000ffc"}
+{"state": "[CMD] STEP\n[PC] 80026d6c\n[INST] lw x15, -1140(x17)\n[REG x17] 800bd000", "next": "[NPC] 80026d70\n[W_REG x15] 8013d35c"}
+{"state": "[CMD] STEP\n[PC] 80052d1c\n[INST] slli x12, x12, 1\n[REG x12] 00000700", "next": "[NPC] 80052d20\n[W_REG x12] 00000700"}
+{"state": "[CMD] STEP\n[PC] 80026d94\n[INST] addi x13, x13, 320\n[REG x13] 802b6cc8", "next": "[NPC] 80026d98\n[W_REG x13] 802b6cc8"}
+{"state": "[CMD] STEP\n[PC] 8003f6ec\n[INST] addi x14, x14, 16\n[REG x14] 800a4070", "next": "[NPC] 8003f6f0\n[W_REG x14] 800a4070"}
+{"state": "[CMD] STEP\n[PC] 80052d78\n[INST] or x15, x15, x28\n[REG x15] 00000000\n[REG x28] 00000000", "next": "[NPC] 80052d7c\n[W_REG x15] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80029ad4\n[INST] lw x10, 0(x14)\n[REG x14] 8006a070", "next": "[NPC] 80029ad8\n[W_REG x10] 0000702f"}
+{"state": "[CMD] STEP\n[PC] 80052d64\n[INST] slli x15, x15, 1\n[REG x15] 0000001e", "next": "[NPC] 80052d68\n[W_REG x15] 0000001e"}
+{"state": "[CMD] STEP\n[PC] 80052d1c\n[INST] slli x12, x12, 1\n[REG x12] f0000000", "next": "[NPC] 80052d20\n[W_REG x12] f0000000"}
+{"state": "[CMD] STEP\n[PC] 800275c4\n[INST] lbu x12, 0(x15)\n[REG x15] 80322d45", "next": "[NPC] 800275c8\n[W_REG x12] 0000006b"}
+{"state": "[CMD] STEP\n[PC] 800275ac\n[INST] lw x12, -1188(x28)\n[REG x28] 800bd000", "next": "[NPC] 800275b0\n[W_REG x12] 80321d64"}
+{"state": "[CMD] STEP\n[PC] 80052d6c\n[INST] addi x16, x17, 0\n[REG x17] 0000b4cf", "next": "[NPC] 80052d70\n[W_REG x16] 0000b4cf"}
+{"state": "[CMD] STEP\n[PC] 800275d4\n[INST] add x15, x15, x12\n[REG x15] 8029a040\n[REG x12] 0000006c", "next": "[NPC] 800275d8\n[W_REG x15] 8029a040"}
+{"state": "[CMD] STEP\n[PC] 800275bc\n[INST] or x15, x15, x10\n[REG x15] 000001c0\n[REG x10] 00000000", "next": "[NPC] 800275c0\n[W_REG x15] 000001c0"}
+{"state": "[CMD] STEP\n[PC] 800275c8\n[INST] lw x15, -1168(x6)\n[REG x6] 800bd000", "next": "[NPC] 800275cc\n[W_REG x15] 8029a7d4"}
+{"state": "[CMD] STEP\n[PC] 800292fc\n[INST] bge x24, x15, -36\n[REG x24] 0000013f\n[REG x15] 000000a4", "next": "[NPC] 800292d8"}
+{"state": "[CMD] STEP\n[PC] 80029144\n[INST] lw x21, 4(sp)\n[REG sp] 80efff40", "next": "[NPC] 80029148\n[W_REG x21] 80090000"}
+{"state": "[CMD] STEP\n[PC] 800292f4\n[INST] addi x15, x9, 0\n[REG x9] 000000e0", "next": "[NPC] 800292f8\n[W_REG x15] 000000e0"}
+{"state": "[CMD] STEP\n[PC] 80052d10\n[INST] beq x13, zero, 8\n[REG x13] 00000001\n[REG zero] 00000000", "next": "[NPC] 80052d14"}
+{"state": "[CMD] STEP\n[PC] 80035814\n[INST] bge zero, x12, -48\n[REG zero] 00000000\n[REG x12] 00000001", "next": "[NPC] 80035818"}
+{"state": "[CMD] STEP\n[PC] 80035820\n[INST] lw x13, 36(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035824\n[W_REG x13] 00000000"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 81007ce8\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 81007ce8"}
+{"state": "[CMD] STEP\n[PC] 800357f0\n[INST] lw x11, 16(x24)\n[REG x24] 800bc468", "next": "[NPC] 800357f4\n[W_REG x11] 00000020"}
+{"state": "[CMD] STEP\n[PC] 800357fc\n[INST] lbu x10, 0(x15)\n[REG x15] 800bc07c", "next": "[NPC] 80035800\n[W_REG x10] 0000001c"}
+{"state": "[CMD] STEP\n[PC] 80035808\n[INST] beq x11, x19, 136\n[REG x11] 00000020\n[REG x19] 00000010", "next": "[NPC] 8003580c"}
+{"state": "[CMD] STEP\n[PC] 80035840\n[INST] sw x15, 0(x13)\n[REG x13] 810152d0\n[REG x15] 0078604c", "next": "[NPC] 80035844\n[W_MEM 810152d0] 0078604c"}
+{"state": "[CMD] STEP\n[PC] 8003584c\n[INST] bne x14, x12, -12\n[REG x14] 00000001\n[REG x12] 00000001", "next": "[NPC] 80035850"}
+{"state": "[CMD] STEP\n[PC] 80035858\n[INST] add s0, s0, x14\n[REG s0] 8101bdc4\n[REG x14] 00000004", "next": "[NPC] 8003585c\n[W_REG s0] 8101bdc4"}
+{"state": "[CMD] STEP\n[PC] 8003581c\n[INST] lw x11, 28(x24)\n[REG x24] 800bc468", "next": "[NPC] 80035820\n[W_REG x11] 00000008"}
+{"state": "[CMD] STEP\n[PC] 80035828\n[INST] sll x14, x14, x11\n[REG x14] 00000100\n[REG x11] 00000008", "next": "[NPC] 8003582c\n[W_REG x14] 00000100"}
