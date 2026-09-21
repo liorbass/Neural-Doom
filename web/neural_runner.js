@@ -585,6 +585,7 @@ class NeuralExecutionEngine {
     this.correctBranches += burstCorrect;
     this.totalTaken += burstTaken;
     this.totalFallthrough += burstFallthrough;
+    this.safetyClamps += Math.max(0, burstBranches - burstCorrect);
 
     const blockLatencyMs = dt / Math.max(1, burstSize);
     this.lastLatencyMs = blockLatencyMs;
@@ -705,8 +706,8 @@ class NeuralExecutionEngine {
             lastRenderTime = now;
           }
 
-          // Throttle DOM telemetry and inspector updates to 10 Hz (every 100ms)
-          if (this.onStepCallback && (now - lastUiTime >= 100)) {
+          // Throttle DOM telemetry and inspector updates to 2 Hz (every 500ms) for calm, stable display
+          if (this.onStepCallback && (now - lastUiTime >= 500)) {
             this.onStepCallback(report);
             lastUiTime = now;
           }
