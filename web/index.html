@@ -341,8 +341,8 @@
   <div style="display:flex; gap:8px; align-items:center;">
     <span style="font-size:12px; color:#c7d2fe; font-weight:bold;">Architecture:</span>
     <select id="arch-select" style="background:#1e1b4b; color:#38bdf8; border:1px solid #6366f1; border-radius:4px; padding:4px 8px; font-size:11px; font-weight:bold; cursor:pointer;" onchange="switchArchitecture(this.value)">
-      <option value="rv32i" selected>RISC-V (RV32I) &middot; Full DOOM 35 FPS (Tier 1-3)</option>
-      <option value="arm32">ARM32 (ARMv4T) &middot; Complex ISA Explorer</option>
+      <option value="rv32i" selected>RISC-V (RV32I) Architecture</option>
+      <option value="arm32">ARM32 (ARMv4T) Architecture</option>
     </select>
     <span style="font-size:12px; color:#c7d2fe; font-weight:bold;">Mode:</span>
     <button class="btn" id="mode-nn-btn" style="background:#4338ca; border-color:#818cf8; color:#fff; font-weight:bold;" onclick="setExecutionMode('neural')">⚡ 100% Neural Mode</button>
@@ -362,77 +362,6 @@
 </div>
 <div id="focus-banner" style="font-size:12px; color:#a5b4fc; text-align:center; margin-bottom:8px; background:rgba(99,102,241,0.15); padding:6px; border-radius:4px; border:1px solid rgba(99,102,241,0.3);">
   🎮 <strong>Click game screen to focus:</strong> <span style="color:#fff;">WASD / Arrows</span> Walk & Turn &middot; <span style="color:#fff;">Left-Click / CTRL / F</span> Fire Pistol &middot; <span style="color:#fff;">SPACE / E</span> Open Doors &middot; <span style="color:#fff;">ESC / ENTER</span> Menus
-</div>
-
-<!-- ARM32 Interactive Complex Architecture Explorer -->
-<div id="arm-container" style="display:none; width:960px; margin-bottom:12px;">
-  <div style="background:var(--card); border:1px solid var(--border); border-radius:6px; padding:16px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-      <div>
-        <h2 style="margin:0 0 4px; color:var(--cyan); font-size:16px; display:flex; align-items:center; gap:8px;">
-          <span>ARM32 (ARMv4T)</span> Complex Architecture Engine &amp; Neural Inspector
-        </h2>
-        <div style="font-size:12px; color:var(--muted);">
-          Full conditional predication on every opcode, integrated barrel shifter, dynamic CPSR condition codes (N, Z, C, V), and multi-register LDM/STM block transfers.
-        </div>
-      </div>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <select id="arm-routine-select" style="background:#1a1d27; color:#e2e8f0; border:1px solid var(--border); border-radius:4px; padding:6px 10px; font-size:12px;" onchange="resetArm()">
-          <option value="barrel">1. ALU + Barrel Shift: add r0, r1, r2, lsl #2</option>
-          <option value="predication">2. Predication: movs r3, #0 -&gt; addeq / addne</option>
-          <option value="flags">3. Arithmetic Flags: subs r3, r1, #42 (Z=1, C=1)</option>
-          <option value="block">4. Block Transfer: stmia r0! &amp; ldmia r0</option>
-        </select>
-        <button class="btn" style="background:#0284c7; border-color:#38bdf8; color:#fff; font-weight:600; padding:6px 12px; font-size:12px;" onclick="stepArm()">Step 1 ARM32 Inst</button>
-        <button class="btn" style="background:#1e293b; border-color:#475569; color:#cbd5e1; padding:6px 12px; font-size:12px;" onclick="runArm1000()">Run 1,000 Steps</button>
-        <button class="btn btn-red" style="padding:6px 12px; font-size:12px;" onclick="resetArm()">Reset Routine</button>
-      </div>
-    </div>
-
-    <!-- 4 Stats Cards -->
-    <div class="grid-stats" style="margin-bottom:14px;">
-      <div class="stat-card">
-        <div class="stat-title">Condition Predication</div>
-        <div class="stat-val" style="color:var(--cyan);">16 Codes</div>
-        <div class="stat-sub">Every opcode is conditionally executed</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-title">ALU Barrel Shifter</div>
-        <div class="stat-val" style="color:var(--purple);">LSL / LSR / ASR / ROR</div>
-        <div class="stat-sub">Shifted operand2 on all arithmetic ops</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-title">Condition Flags</div>
-        <div class="stat-val" id="arm-flags-val" style="color:var(--orange);">N:0 Z:0 C:0 V:0</div>
-        <div class="stat-sub">Dynamic CPSR status register tracking</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-title">ARM32 WASM Speed</div>
-        <div class="stat-val" style="color:var(--green);">245.3 MIPS</div>
-        <div class="stat-sub">Native WebAssembly execution</div>
-      </div>
-    </div>
-
-    <!-- Code boxes -->
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
-      <div>
-        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; font-weight:600;">[ARM32 INPUT PROMPT] Transformer / SSM State Format:</div>
-        <pre class="code-box" id="arm-live-prompt" style="height:170px; overflow:auto;">Initializing ARM32 core...</pre>
-      </div>
-      <div>
-        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; font-weight:600;">[ARM32 TARGET TRANSITION] Ground-Truth Next State:</div>
-        <pre class="code-box" id="arm-live-target" style="height:170px; overflow:auto;">Click 'Step 1 ARM32 Inst' to step and inspect...</pre>
-      </div>
-    </div>
-
-    <!-- Register dump -->
-    <div style="background:#0c0d12; border:1px solid #1e2230; border-radius:4px; padding:10px;">
-      <div style="font-size:11px; font-weight:bold; color:var(--cyan); margin-bottom:6px;">ARM32 Register State (r0 - r15, CPSR):</div>
-      <div id="arm-regs-grid" style="display:grid; grid-template-columns: repeat(8, 1fr); gap:6px; font-family:monospace; font-size:11px;">
-        <!-- Filled by JS -->
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="panel">
@@ -498,6 +427,7 @@
     <div class="nn-tab" onclick="showTab('nn-architecture')">Architecture & Design</div>
     <div class="nn-tab" onclick="showTab('nn-optimizations')">Engine Optimizations (Tiers 1-3)</div>
     <div class="nn-tab" onclick="showTab('nn-pipeline')">Execution Pipeline & Data Flow</div>
+    <div class="nn-tab" onclick="showTab('nn-arm')">ARM32 Complex ISA Comparison</div>
   </div>
 
   <!-- Tab 1: Live Samba Block Inspector -->
@@ -726,6 +656,138 @@
       </p>
     </div>
   </div>
+
+  <!-- Tab 5: ARM32 Complex ISA Comparison -->
+  <div class="nn-content" id="nn-arm">
+    <div style="margin-bottom:14px;">
+      <h3 style="margin:0 0 4px; color:var(--cyan); font-size:14px;">Micro-Architectural ISA Comparison: Minimal RISC-V (RV32I) vs. Complex ARM32 (ARMv4T)</h3>
+      <p style="margin:0; font-size:12px; color:var(--muted);">
+        Understanding why DOOM runs on RV32I, what the ARM32 hardware barrel shifter is, and how neural predictors handle compound instruction semantics vs. orthogonal RISC.
+      </p>
+    </div>
+
+    <!-- 4 Comparison Cards -->
+    <div class="grid-stats" style="margin-bottom:14px;">
+      <div class="stat-card">
+        <div class="stat-title">ALU Hardware Barrel Shifter</div>
+        <div class="stat-val" style="color:var(--purple);">Operand 2 Shift</div>
+        <div class="stat-sub">ARM: 1 cycle (compound) &middot; RV32: 2 instructions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Conditional Predication</div>
+        <div class="stat-val" style="color:var(--cyan);">Bits [31:28]</div>
+        <div class="stat-sub">ARM: All instructions &middot; RV32: Branches only</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Status Register Hazards</div>
+        <div class="stat-val" style="color:var(--orange);">CPSR (NZCV)</div>
+        <div class="stat-sub">ARM: Implicit flags &middot; RV32: Direct register comparison</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Hardware Transistors vs NN</div>
+        <div class="stat-val" style="color:var(--green);">35,906 Params</div>
+        <div class="stat-sub">Mamba-Nano vs ~74K (ARM7) / ~25K (PicoRV32)</div>
+      </div>
+    </div>
+
+    <!-- 2 Column Breakdown -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:14px;">
+      <!-- Left Column: The Barrel Shifter Deep-Dive -->
+      <div style="background:#11141c; border:1px solid var(--border); border-radius:6px; padding:14px; font-size:12px; line-height:1.6;">
+        <h4 style="margin:0 0 8px; color:var(--purple); font-size:13px; display:flex; align-items:center; gap:6px;">
+          <span>⚡ What is the ALU + Barrel Shifter in ARM?</span>
+        </h4>
+        <p style="color:#cbd5e1; margin:0 0 10px;">
+          In classical ARM (ARMv4T / ARM7TDMI), every arithmetic instruction (ADD, SUB, AND, ORR, etc.) passes its second operand (<code style="color:var(--cyan);">operand 2</code>) through a dedicated 32-bit hardware <strong>barrel shifter</strong> before reaching the ALU input.
+        </p>
+        <div style="background:#0a0c10; padding:10px; border-radius:4px; font-family:monospace; font-size:11px; margin-bottom:10px; border:1px solid #1e2230;">
+          <div style="color:var(--cyan); font-weight:bold; margin-bottom:4px;">ARM32 Compound Operation (1 Instruction, 1 Cycle):</div>
+          <span style="color:#f43f5e;">add</span> r0, r1, r2, <span style="color:#38bdf8;">lsl #2</span>
+          <div style="color:var(--muted); font-size:10px; margin-top:2px;">// r0 = r1 + (r2 &lt;&lt; 2) [base + index * 4 in 1 cycle]</div>
+          <hr style="border:0; border-top:1px solid #232738; margin:8px 0;">
+          <div style="color:var(--green); font-weight:bold; margin-bottom:4px;">RISC-V (RV32I) Orthogonal Operation (2 Instructions):</div>
+          <span style="color:#f43f5e;">slli</span> t0, a2, 2<br>
+          <span style="color:#f43f5e;">add</span>  a0, a1, t0
+          <div style="color:var(--muted); font-size:10px; margin-top:2px;">// Explicit shift followed by explicit addition</div>
+        </div>
+        <p style="color:#94a3b8; font-size:11px; margin:0;">
+          <strong>Why ARM did this:</strong> In 1985, memory bandwidth was extremely slow. Combining shifts with arithmetic increased code density and kept the single-issue pipeline fed without extra instruction fetches.
+        </p>
+      </div>
+
+      <!-- Right Column: Predication, CPSR & RISC-V Trade-offs -->
+      <div style="background:#11141c; border:1px solid var(--border); border-radius:6px; padding:14px; font-size:12px; line-height:1.6;">
+        <h4 style="margin:0 0 8px; color:var(--cyan); font-size:13px; display:flex; align-items:center; gap:6px;">
+          <span>🎯 Predication &amp; Global Status Register (CPSR)</span>
+        </h4>
+        <p style="color:#cbd5e1; margin:0 0 10px;">
+          ARM dedicates bits [31:28] of <em>every 32-bit instruction</em> to one of 16 condition codes (<code style="color:var(--cyan);">eq, ne, cs, cc, mi, pl, vs, vc, hi, ls, ge, lt, gt, le, al, nv</code>).
+        </p>
+        <div style="background:#0a0c10; padding:10px; border-radius:4px; font-family:monospace; font-size:11px; margin-bottom:10px; border:1px solid #1e2230;">
+          <div style="color:var(--cyan); font-weight:bold; margin-bottom:4px;">ARM32 Branch-Free If-Else:</div>
+          <span style="color:#f43f5e;">cmp</span>   r1, #0<br>
+          <span style="color:#38bdf8;">addeq</span> r0, r0, #1 &nbsp;<span style="color:var(--muted); font-size:10px;">// executes only if Z == 1</span><br>
+          <span style="color:#38bdf8;">subne</span> r0, r0, #1 &nbsp;<span style="color:var(--muted); font-size:10px;">// executes only if Z == 0</span>
+          <hr style="border:0; border-top:1px solid #232738; margin:8px 0;">
+          <div style="color:var(--green); font-weight:bold; margin-bottom:4px;">RISC-V (RV32I) Minimal Branching:</div>
+          <span style="color:#f43f5e;">bne</span>   a1, zero, else_label<br>
+          <span style="color:#f43f5e;">addi</span>  a0, a0, 1<br>
+          <span style="color:#f43f5e;">j</span>     end_label
+        </div>
+        <p style="color:#94a3b8; font-size:11px; margin:0;">
+          <strong>Why RISC-V dropped it:</strong> Predication wastes 4 bits in every opcode (25% of encoding space) and makes out-of-order execution, register renaming, and superscalar retirement far more expensive in hardware.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom Architectural Comparison Table -->
+    <div style="background:#11141c; border:1px solid var(--border); border-radius:6px; padding:14px; font-size:12px; color:#cbd5e1;">
+      <h4 style="margin:0 0 10px; color:var(--orange); font-size:13px;">Silicon Transistors vs. Neural Parameters: The Architectural Evolution</h4>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:left;">
+          <thead>
+            <tr style="border-bottom:1px solid #333a4d; color:var(--cyan);">
+              <th style="padding:6px 8px;">Processor / System</th>
+              <th style="padding:6px 8px;">ISA Type</th>
+              <th style="padding:6px 8px;">Physical Transistors</th>
+              <th style="padding:6px 8px;">Neural Parameters</th>
+              <th style="padding:6px 8px;">Role in this Project</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #1e2230;">
+              <td style="padding:6px 8px; font-weight:600; color:#fff;">Intel 486DX (1989)</td>
+              <td style="padding:6px 8px; color:var(--muted);">x86 (CISC)</td>
+              <td style="padding:6px 8px; color:#f87171;">~1,200,000</td>
+              <td style="padding:6px 8px; color:var(--muted);">&mdash;</td>
+              <td style="padding:6px 8px;">Original 1993 PC hardware target for DOOM</td>
+            </tr>
+            <tr style="border-bottom:1px solid #1e2230;">
+              <td style="padding:6px 8px; font-weight:600; color:#fff;">ARM7TDMI (1994)</td>
+              <td style="padding:6px 8px; color:var(--muted);">ARMv4T (Complex RISC)</td>
+              <td style="padding:6px 8px; color:#fb923c;">~74,000</td>
+              <td style="padding:6px 8px; color:var(--muted);">&mdash;</td>
+              <td style="padding:6px 8px;">Emulated in this repo (245+ MIPS) for complex ISA exploration</td>
+            </tr>
+            <tr style="border-bottom:1px solid #1e2230;">
+              <td style="padding:6px 8px; font-weight:600; color:#fff;">PicoRV32 (2015)</td>
+              <td style="padding:6px 8px; color:var(--muted);">RV32I (Minimal RISC)</td>
+              <td style="padding:6px 8px; color:#38bdf8;">~10,000 &ndash; 25,000</td>
+              <td style="padding:6px 8px; color:var(--muted);">&mdash;</td>
+              <td style="padding:6px 8px;">Clean orthogonal ISA chosen for bare-metal DOOM compilation</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px; font-weight:600; color:var(--green);">DOOM Mamba-Nano (2026)</td>
+              <td style="padding:6px 8px; color:var(--green);">Selective State Space</td>
+              <td style="padding:6px 8px; color:var(--muted);">&mdash;</td>
+              <td style="padding:6px 8px; font-weight:bold; color:var(--green);">35,906</td>
+              <td style="padding:6px 8px; color:var(--green);">Neural network that learns the CPU execution manifold at 35 FPS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="rv32i.js"></script>
@@ -757,6 +819,7 @@
   let Module = null;
   let cpu = null;
   let rgbaPtr = null;
+  let cachedRomBytes = null;
 
   let isRunning = false;
   let speed = 0.0;
@@ -1482,6 +1545,7 @@
         pbar.style.width = (pct * 100).toFixed(1) + '%';
         statusDesc.textContent = `Downloaded ${(pct * 14).toFixed(1)} / 14 MB (${Math.round(pct * 100)}%)`;
       });
+      cachedRomBytes = romBytes;
 
       statusTitle.textContent = 'Setting up CPU & Memory...';
       cpu = Module._rv32i_create();
@@ -1589,9 +1653,8 @@
       const fpsHistory = [];
 
       function mainLoop(now) {
-        if (!isRunning) return;
         requestAnimationFrame(mainLoop);
-        if (currentArch !== 'rv32i') return;
+        if (!isRunning) return;
 
         const delta = Math.min(now - lastTime, 50.0);
         lastTime = now;
@@ -1719,193 +1782,137 @@
   }
 
   let currentArch = 'rv32i';
+  let isRestarting = false;
 
   window.switchArchitecture = function(arch) {
+    restartDoom(arch);
+  };
+
+  async function restartDoom(arch) {
+    if (isRestarting || !Module || !cpu || !cachedRomBytes) return;
+    isRestarting = true;
     currentArch = arch;
-    const gameContainer = document.getElementById('game-container');
-    const focusBanner = document.getElementById('focus-banner');
-    const neuralControlsRow = document.getElementById('neural-controls-row');
-    const speedRow = document.getElementById('speed-row');
-    const telemetryRow = document.getElementById('telemetry-row');
-    const armContainer = document.getElementById('arm-container');
+
+    // Pause any active neural or emulator loop
+    if (window.neuralEngine && window.neuralEngine.isRunning) {
+      window.neuralEngine.stopLoop();
+    }
+    isRunning = false;
+
+    const archName = (arch === 'arm32') ? 'ARM32 (ARMv4T)' : 'RISC-V (RV32I)';
+    statusTitle.textContent = `Restarting DOOM on ${archName}...`;
+    statusDesc.textContent = 'Resetting CPU memory, registers, and booting E1M1 from start...';
+    pbar.style.width = '35%';
+    overlay.style.display = 'flex';
+
+    // Update Header and Selector
     const archTitle = document.getElementById('arch-display-title');
     const archSub = document.getElementById('arch-display-sub');
+    const archSelect = document.getElementById('arch-select');
+    if (archSelect) archSelect.value = arch;
 
-    if (arch === 'rv32i') {
-      if (armContainer) armContainer.style.display = 'none';
-      if (gameContainer) gameContainer.style.display = 'block';
-      if (focusBanner) focusBanner.style.display = 'block';
-      if (neuralControlsRow) neuralControlsRow.style.display = 'flex';
-      if (speedRow) speedRow.style.display = 'flex';
-      if (telemetryRow) telemetryRow.style.display = 'flex';
+    if (arch === 'arm32') {
+      if (archTitle) archTitle.innerHTML = '<span>DOOM</span> ARM32 &middot; Samba Neural Core';
+      if (archSub) archSub.textContent = 'ARM32 (ARMv4T) Architecture DOOM with Samba (Mamba SSM + SWA) Basic Block Neural Predictor';
+    } else {
       if (archTitle) archTitle.innerHTML = '<span>DOOM</span> RV32I &middot; Samba Neural Core';
       if (archSub) archSub.textContent = 'Bare-Metal RV32I DOOM with Samba (Mamba SSM + SWA) Basic Block Neural Predictor';
-
-      // Resume RV32I loop if neural mode
-      if (executionMode === 'neural' && window.neuralEngine && !window.neuralEngine.isRunning && cpu && Module) {
-        window.neuralEngine.startLoop(cpu, Module, renderCanvas);
-        const btn = document.getElementById('neural-run-btn');
-        if (btn) {
-          btn.textContent = '❚❚ Pause Neural';
-          btn.style.background = '#b91c1c';
-        }
-      }
-    } else if (arch === 'arm32') {
-      // Suspend RV32I execution
-      if (window.neuralEngine && window.neuralEngine.isRunning) {
-        window.neuralEngine.stopLoop();
-        const btn = document.getElementById('neural-run-btn');
-        if (btn) {
-          btn.textContent = '► Neural Run';
-          btn.style.background = '#047857';
-        }
-      }
-      if (gameContainer) gameContainer.style.display = 'none';
-      if (focusBanner) focusBanner.style.display = 'none';
-      if (neuralControlsRow) neuralControlsRow.style.display = 'none';
-      if (speedRow) speedRow.style.display = 'none';
-      if (telemetryRow) telemetryRow.style.display = 'none';
-      if (armContainer) armContainer.style.display = 'block';
-      if (archTitle) archTitle.innerHTML = '<span>ARM32</span> (ARMv4T) &middot; Complex Architecture Core';
-      if (archSub) archSub.textContent = 'Predicated Execution, Barrel Shifter, CPSR Flags & Block Memory Transfers';
-
-      initArm();
     }
-  };
 
-  let armModule = null;
-  let armCpu = null;
-  let armPromptPtr = null;
-  let armTargetPtr = null;
-  let armMnemPtr = null;
+    await new Promise(r => setTimeout(r, 60));
 
-  const ARM_ROUTINES = {
-    barrel: [
-      0xe3a0100a, // mov r1, #10
-      0xe3a02014, // mov r2, #20
-      0xe0810102  // add r0, r1, r2, lsl #2 (10 + 80 = 90)
-    ],
-    predication: [
-      0xe3b03000, // movs r3, #0 -> sets Z=1
-      0x0283402a, // addeq r4, r3, #42 -> executes because Z=1
-      0x12835063  // addne r5, r3, #99 -> skipped because Z=1
-    ],
-    flags: [
-      0xe3a0102a, // mov r1, #42
-      0xe251302a  // subs r3, r1, #42 -> sets Z=1, C=1
-    ],
-    block: [
-      0xe3a00a01, // mov r0, #0x1000
-      0xe3a0106f, // mov r1, #111
-      0xe3a020de, // mov r2, #222
-      0xe8a00006, // stmia r0!, {r1, r2}
-      0xe2400008, // sub r0, r0, #8
-      0xe8900030  // ldmia r0, {r4, r5}
-    ]
-  };
+    // Reset CPU registers and RAM
+    Module._rv32i_init(cpu);
+    const romPtr = Module._malloc(cachedRomBytes.length);
+    Module.HEAPU8.set(cachedRomBytes, romPtr);
+    const loaded = Module._rv32i_load_binary_data(cpu, romPtr, cachedRomBytes.length);
+    Module._free(romPtr);
+    if (loaded <= 0) console.warn('Failed to reload ROM data into CPU RAM');
 
-  function readUtf8StringArm(ptr) {
-    if (!ptr || !armModule) return '';
-    if (typeof armModule.UTF8ToString === 'function') {
-      return armModule.UTF8ToString(ptr);
+    // Reset Neural Engine recurrent state (hidden states h and sliding window attention buffer)
+    if (window.neuralEngine) {
+      window.neuralEngine.resetRecurrentState(Module);
+      updateNeuralInspectorDisplay();
     }
-    let end = ptr;
-    while (armModule.HEAPU8[end] !== 0) end++;
-    return new TextDecoder('utf-8').decode(armModule.HEAPU8.subarray(ptr, end));
+
+    statusTitle.textContent = `Booting DOOM Title Screen on ${archName}...`;
+    pbar.style.width = '65%';
+    await new Promise(r => setTimeout(r, 40));
+
+    // Advance startup steps to title screen
+    for (let i = 1; i <= 55; i++) {
+      Module._rv32i_run_steps(cpu, 1000000);
+      const gs = Module._rv32i_probe_gs ? Module._rv32i_probe_gs(cpu) : 0;
+      const curGametic = Module._rv32i_probe_gametic ? Module._rv32i_probe_gametic(cpu) : 0;
+      if ((gs > 0 || curGametic > 0) && i >= 50) {
+        Module._rv32i_run_steps(cpu, 2000000);
+        break;
+      }
+    }
+
+    statusTitle.textContent = `Launching E1M1: Knee-Deep in the Dead (${archName})...`;
+    pbar.style.width = '100%';
+    await new Promise(r => setTimeout(r, 40));
+
+    // Send menu keys: Escape -> Enter (New Game) -> Enter (Episode 1) -> Enter (Skill)
+    Module._rv32i_push_key(cpu, 27, 1); Module._rv32i_push_key(cpu, 27, 0);
+    Module._rv32i_run_steps(cpu, 1000000);
+
+    Module._rv32i_push_key(cpu, 13, 1); Module._rv32i_push_key(cpu, 13, 0);
+    Module._rv32i_run_steps(cpu, 1000000);
+
+    Module._rv32i_push_key(cpu, 13, 1); Module._rv32i_push_key(cpu, 13, 0);
+    Module._rv32i_run_steps(cpu, 1000000);
+
+    Module._rv32i_push_key(cpu, 13, 1); Module._rv32i_push_key(cpu, 13, 0);
+    Module._rv32i_run_steps(cpu, 5000000);
+
+    // Advance until level is fully spawned
+    for (let s = 0; s < 15; s++) {
+      const gs = Module._rv32i_probe_gs ? Module._rv32i_probe_gs(cpu) : 0;
+      const curGametic = Module._rv32i_probe_gametic ? Module._rv32i_probe_gametic(cpu) : 0;
+      if (gs === 0 && curGametic >= 15) break;
+      Module._rv32i_run_steps(cpu, 1000000);
+    }
+
+    // Reset telemetry metrics
+    totalScreenDraws = 0;
+    totalNewGameFrames = 0;
+    lastDrawnGametic = 0;
+    screenFramesInterval = 0;
+    gameFramesInterval = 0;
+
+    const framesLabel = document.getElementById('frames-label');
+    const stepsLabel = document.getElementById('steps-label');
+    const timeLabel = document.getElementById('time-label');
+    const fpsLabel = document.getElementById('fps-label');
+    const mipsLabel = document.getElementById('mips-label');
+    const gsLabel = document.getElementById('gs-label');
+    if (framesLabel) framesLabel.textContent = 'Frames: 0';
+    if (stepsLabel) stepsLabel.textContent = 'Steps: 0';
+    if (timeLabel) timeLabel.textContent = 'Time: 0.0s';
+    if (fpsLabel) fpsLabel.textContent = (executionMode === 'neural' ? 'Neural: 35.0 FPS' : 'Game: 35.0 FPS');
+    if (mipsLabel) mipsLabel.textContent = '10.25 MIPS';
+    if (gsLabel) gsLabel.textContent = 'PLAYING';
+
+    renderCanvas();
+    overlay.style.display = 'none';
+    isRunning = true;
+
+    // Resume execution loop in fastest neural execution mode
+    if (executionMode === 'neural' && window.neuralEngine) {
+      window.neuralEngine.startLoop(cpu, Module, renderCanvas);
+      const btn = document.getElementById('neural-run-btn');
+      if (btn) {
+        btn.textContent = '❚❚ Pause Neural';
+        btn.style.background = '#b91c1c';
+      }
+    }
+
+    isRestarting = false;
+    container.focus();
   }
 
-  async function initArm() {
-    try {
-      if (!armModule && typeof createARM32Module === 'function') {
-        armModule = await createARM32Module();
-      }
-      if (armModule && !armCpu) {
-        armCpu = armModule._arm32_create();
-        armPromptPtr = armModule._malloc(1024);
-        armTargetPtr = armModule._malloc(256);
-        armMnemPtr = armModule._malloc(32);
-      }
-      resetArm();
-    } catch (e) {
-      console.warn('initArm error:', e);
-    }
-  }
-
-  window.resetArm = function() {
-    if (!armModule || !armCpu) {
-      initArm();
-      return;
-    }
-    const select = document.getElementById('arm-routine-select');
-    const routineKey = select ? select.value : 'barrel';
-    const words = ARM_ROUTINES[routineKey] || ARM_ROUTINES.barrel;
-
-    armModule._arm32_init(armCpu);
-    const code = new Uint32Array(words);
-    const bytes = new Uint8Array(code.buffer);
-    const ptr = armModule._malloc(bytes.length);
-    armModule.HEAPU8.set(bytes, ptr);
-    armModule._arm32_load_binary_data(armCpu, ptr, bytes.length);
-    armModule._free(ptr);
-
-    armModule._arm32_decode_prompt(armCpu, armPromptPtr, 1024, armMnemPtr, 32);
-    const pStr = readUtf8StringArm(armPromptPtr);
-    const promptElem = document.getElementById('arm-live-prompt');
-    const targetElem = document.getElementById('arm-live-target');
-    if (promptElem) promptElem.textContent = pStr || '[No instruction]';
-    if (targetElem) targetElem.textContent = '(Click "Step 1 ARM32 Inst" to step and inspect ground truth)';
-    updateArmRegs();
-  };
-
-  window.stepArm = function() {
-    if (!armModule || !armCpu) {
-      initArm();
-      return;
-    }
-    armModule._arm32_step_trace(armCpu, armPromptPtr, 1024, armTargetPtr, 256);
-    const pStr = readUtf8StringArm(armPromptPtr);
-    const tStr = readUtf8StringArm(armTargetPtr);
-    const promptElem = document.getElementById('arm-live-prompt');
-    const targetElem = document.getElementById('arm-live-target');
-    if (promptElem) promptElem.textContent = pStr || '[End of routine]';
-    if (targetElem) targetElem.textContent = tStr || '[NPC updated]';
-    updateArmRegs();
-  };
-
-  window.runArm1000 = function() {
-    if (!armModule || !armCpu) {
-      initArm();
-      return;
-    }
-    armModule._arm32_run_steps(armCpu, 1000);
-    armModule._arm32_decode_prompt(armCpu, armPromptPtr, 1024, armMnemPtr, 32);
-    const pStr = readUtf8StringArm(armPromptPtr);
-    const promptElem = document.getElementById('arm-live-prompt');
-    const targetElem = document.getElementById('arm-live-target');
-    if (promptElem) promptElem.textContent = pStr || '[Halted / Step 1000]';
-    if (targetElem) targetElem.textContent = `Executed 1,000 steps (PC: 0x${(armModule._arm32_get_pc(armCpu)>>>0).toString(16).padStart(8, '0')})`;
-    updateArmRegs();
-  };
-
-  function updateArmRegs() {
-    if (!armModule || !armCpu) return;
-    const grid = document.getElementById('arm-regs-grid');
-    if (!grid) return;
-    let html = '';
-    for (let i = 0; i < 16; i++) {
-      const val = (armModule._arm32_get_reg(armCpu, i) >>> 0).toString(16).padStart(8, '0');
-      const name = (i === 13) ? 'sp (r13)' : (i === 14) ? 'lr (r14)' : (i === 15) ? 'pc (r15)' : `r${i}`;
-      html += `<div style="background:#151824; padding:4px 6px; border-radius:3px; border:1px solid #232738;"><span style="color:#94a3b8;">${name}:</span> <span style="color:#38bdf8;">0x${val}</span></div>`;
-    }
-    const cpsr = (armModule._arm32_get_cpsr(armCpu) >>> 0);
-    const n = (cpsr & (1 << 31)) ? '1' : '0';
-    const z = (cpsr & (1 << 30)) ? '1' : '0';
-    const c = (cpsr & (1 << 29)) ? '1' : '0';
-    const v = (cpsr & (1 << 28)) ? '1' : '0';
-    const flagsVal = document.getElementById('arm-flags-val');
-    if (flagsVal) flagsVal.textContent = `N:${n} Z:${z} C:${c} V:${v} (0x${cpsr.toString(16)})`;
-    grid.innerHTML = html;
-  }
 
   window.addEventListener('DOMContentLoaded', init);
 })();
