@@ -50,6 +50,36 @@ How does the complexity of a neural CPU compare to the physical silicon that ori
 | `emulator/` + `web/` + `model/libemulator.py` | Native C RV32I engine (`rv32i.c`, `emulator.c`) running at 26–240M steps/s natively and 114M steps/s in WebAssembly (`web/`), with live streaming GUI (`--gui`), static in-browser WASM player (`make -C emulator web`), high-speed JSONL dataset tracer (`--dataset`), binary checkpointing (`--checkpoint-at`), and Python `ctypes` bindings for model evaluation. |
 | `model/train_mamba_nano.py` + `model/train.py` | Ultra-lightweight 2-layer Selective SSM (Mamba-Nano, 35K params) with multi-task output heads (branch BCE, target PC, 32-bit register write mask, and memory store detection), and baseline char-level models. |
 | `web/neural_runner.js` + `web/index.html` | Real-time in-browser neural execution engine with 3-tier acceleration: (1) Embedded C/WASM Mamba-Nano kernel (~15µs, 70k+ blk/s), (2) Dynamic Mega-Block Chaining (128 insts/dispatch, 10.25+ MIPS), and (3) Asynchronous zero-delay `MessageChannel` loop with decoupled 60 Hz vsync `requestAnimationFrame` canvas presentation. Includes live block disassembly and telemetry. |
+| `port/Makefile.arm32` + `emulator/arm32.c` + `emulator/emulator_arm32.c` | Bare-metal **ARMv4T** (ARM7TDMI-class) port of doomgeneric (`doom_arm32.bin`, code + appended WAD) plus its ARM32 interpreter core and headless harness. The in-browser player's "ARM32" architecture option loads this binary onto the ARM32 core. ARM runs the plain interpreter (~127 M steps/s native, ~115 MIPS in WASM); the Mamba predictor is RV32I-only. |
+
+# scripted E1M1 gameplay on the ARM32 port (boots, menus into E1M1, plays):
+make -C emulator emulator_arm32
+emulator/emulator_arm32 --bin doomgeneric/doomgeneric/doom_arm32.bin \
+    --symbols doomgeneric/doomgeneric/symbols_arm.txt --steps 250000000 --boot-menu
+```
+
+### 🦾 ARM32 (ARMv4T) port
+
+`port/Makefile.arm32` compiles the same doomgeneric tree to bare-metal
+**ARMv4T** (`-march=armv4t -marm -mfloat-abi=soft`, newlib, own `start_arm.s` /
+`link_arm.ld`) and appends the shareware WAD at the 10 MB mark, exactly like the
+RV32I build. `emulator/arm32.c` interprets it: the in-browser player's
+architecture selector instantiates `web/arm32.wasm` and loads
+`web/doom_arm32.bin`, so the ARM32 option executes the real ARM binary (verified
+to boot, enter E1M1 and render frames), not a relabelled RV32I run.
+
+Honest scope: on ARM32 the guest runs on the **plain interpreter**
+(~127 M steps/s native, ~115 MIPS in WASM). ARM32 has its **own** Mamba-Nano
+predictor: `emulator/emulator_arm32 --blocks model/doom_blocks_arm.jsonl
+--trace-skip-steps 2000000` strides 300k basic-block traces across ~300M steps
+of gameplay, `model/train_mamba_nano.py --data doom_blocks_arm.jsonl --regs 16
+--onnx web/mamba_nano_arm.onnx` trains the ARM head (99.44% held-out), and
+`model/export_mamba_c.py --prefix MAMBA_ARM_` emits the C kernel weights. At
+runtime the ARM superblock stepper consults that head plus a confidence-gated
+2-bit bimodal counter per block PC: ~98.6% live branch accuracy across gameplay
+phases (99.4% in the WASM burst benchmark). Execution still retires
+ground truth, exactly like the RV32I engine; Neural Mode is selectable on both
+architectures.
 
 ## Documentation
 

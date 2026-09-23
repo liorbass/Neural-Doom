@@ -187,7 +187,9 @@ void rv32i_mem_write(RV32I_CPU *cpu, uint32_t addr, int size, uint32_t val) {
         } else if (addr == MMIO_TIMER) {
             cpu->timer_ms = val;
         } else if (addr == MMIO_CONS) {
+#ifndef __EMSCRIPTEN__
             fputc((int)(val & 0xFF), stderr);
+#endif
         }
         return;
     }
@@ -962,6 +964,8 @@ int rv32i_step_superblock_neural(RV32I_CPU *cpu, void *state, uint32_t max_insts
         out_info[11] = is_correct;
         out_info[12] = neural_taken;
         out_info[13] = conv_norm.u;
+        out_info[14] = 0;  /* bimodal fallback: RV32I head is model-only */
+        out_info[15] = 0;
     }
 
     return inst_count;
@@ -1002,6 +1006,9 @@ int rv32i_step_superblock_neural_burst(RV32I_CPU *cpu, void *state,
         out_stats[2] = correct_branches;
         out_stats[3] = total_taken;
         out_stats[4] = total_fallthrough;
+        out_stats[5] = 0;
+        out_stats[6] = 0;
+        out_stats[7] = 0;
     }
 
     return (int)total_insts;

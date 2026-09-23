@@ -331,8 +331,8 @@
 <body>
 
 <header>
-  <h1 id="arch-display-title"><span>DOOM</span> RV32I &middot; Samba Neural Core</h1>
-  <div class="sub" id="arch-display-sub">Bare-Metal RV32I DOOM with Samba (Mamba SSM + SWA) Basic Block Neural Predictor</div>
+  <h1 id="arch-display-title"><span>DOOM</span> RV32I &middot; Mamba-Nano Neural Core</h1>
+  <div class="sub" id="arch-display-sub">Bare-metal RV32I DOOM with a Mamba-Nano (selective SSM) basic-block predictor; ground-truth retirement</div>
 </header>
 
 <div id="neural-banner" style="width:960px; margin-bottom:8px; background:#121520; border:1px solid #1f2536; border-radius:6px; padding:6px 14px; display:flex; justify-content:space-between; align-items:center;">
@@ -381,38 +381,39 @@
 
     <!-- Core Telemetry (Right) -->
     <div class="grp" style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
-      <span class="badge badge-fps" id="fps-label" style="min-width:105px; text-align:center;">Neural: 35.0 FPS</span>
-      <span class="badge badge-mips" id="mips-label" style="min-width:85px; text-align:center;">10.25 MIPS</span>
+      <span class="badge badge-fps" id="fps-label" style="min-width:105px; text-align:center;">Neural: -- FPS</span>
+      <span class="badge badge-mips" id="mips-label" style="min-width:85px; text-align:center;">-- MIPS</span>
       <span class="badge badge-state" id="gs-label" style="min-width:60px; text-align:center;">PLAYING</span>
       <span class="badge" id="frames-label" style="min-width:85px; text-align:center;">Frames: 0</span>
       <span class="badge" id="steps-label" style="min-width:105px; text-align:center;">Steps: 0</span>
       <span class="badge" id="time-label" style="min-width:70px; text-align:center;">Time: 0.0s</span>
-      <span class="badge" id="neural-lat-label" style="min-width:90px; text-align:center; color:#34d399;">Latency: 12 µs</span>
-      <span class="badge" id="neural-correct-label" style="min-width:115px; text-align:center; color:#34d399;">Correct: 100%</span>
+      <span class="badge" id="neural-lat-label" style="min-width:90px; text-align:center; color:#34d399;">Latency: --</span>
+      <span class="badge" id="neural-correct-label" style="min-width:115px; text-align:center; color:#34d399;">Correct: --</span>
+      <span class="badge" id="neural-fb-label" style="min-width:150px; text-align:center; color:#fbbf24;">Fallback: --</span>
       <span class="badge" id="neural-clamps-label" style="min-width:70px; text-align:center; color:#94a3b8;">Clamps: 0</span>
     </div>
   </div>
 </div>
 
-<!-- Neural Network Metrics & Research Dashboard: Samba Basic Block Model -->
+<!-- Neural Network Metrics & Research Dashboard: Mamba-Nano Basic Block Model -->
 <div class="nn-section">
   <div class="nn-nav">
-    <div class="nn-tab active" onclick="showTab('nn-live')">Live Samba Block Inspector</div>
+    <div class="nn-tab active" onclick="showTab('nn-live')">Live Block Inspector</div>
     <div class="nn-tab" onclick="showTab('nn-architecture')">Architecture & Design</div>
     <div class="nn-tab" onclick="showTab('nn-optimizations')">Engine Optimizations (Tiers 1-3)</div>
     <div class="nn-tab" onclick="showTab('nn-pipeline')">Execution Pipeline & Data Flow</div>
     <div class="nn-tab" onclick="showTab('nn-arm')">ARM32 Complex ISA Comparison</div>
   </div>
 
-  <!-- Tab 1: Live Samba Block Inspector -->
+  <!-- Tab 1: Live Block Inspector -->
   <div class="nn-content active" id="nn-live">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
       <div>
-        <span style="font-weight:600; color:var(--cyan); font-size:13px;">Live Basic Block Telemetry & Samba Neural Prediction</span>
+        <span style="font-weight:600; color:var(--cyan); font-size:13px;">Live Basic Block Telemetry & Mamba-Nano Prediction</span>
         <div style="font-size:11px; color:var(--muted); margin-top:2px;">Disassembles current guest execution block and predicts branch & state transition in a single pass</div>
       </div>
       <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-        <span class="badge" id="neural-rate-label" style="font-size:11px;">Rate: 80,000 blk/s</span>
+        <span class="badge" id="neural-rate-label" style="font-size:11px;">Rate: -- blk/s</span>
         <span class="badge" id="neural-blocks-label" style="font-size:11px;">Blocks: 0</span>
         <span class="badge" id="neural-insts-label" style="font-size:11px;">Insts: 0</span>
         <span class="badge" id="neural-norm-label" style="font-size:11px;">SSM ||h||: 0.0</span>
@@ -430,7 +431,7 @@
         <pre class="code-box" id="block-disasm" style="min-height:220px;">Waiting for emulator to boot...</pre>
       </div>
       <div>
-        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; font-weight:600;">[SAMBA PREDICTOR] Single-Pass Discrete Delta:</div>
+        <div style="font-size:11px; color:var(--muted); margin-bottom:4px; font-weight:600;">[MAMBA-NANO PREDICTOR] Single-Pass Discrete Delta:</div>
         <pre class="code-box" id="block-pred" style="min-height:220px;">Waiting for emulator to boot...</pre>
       </div>
     </div>
@@ -517,9 +518,9 @@
         <div class="stat-sub">Decoupled rAF presentation</div>
       </div>
       <div class="stat-card">
-        <div class="stat-title">Execution Throughput</div>
-        <div class="stat-val" style="color:var(--orange);">10.25 MIPS</div>
-        <div class="stat-sub">Full 35.0 DOOM Engine FPS</div>
+        <div class="stat-title">Execution Throughput (WASM, measured)</div>
+        <div class="stat-val" style="color:var(--orange);">9 / 126 MIPS</div>
+        <div class="stat-sub">neural observer path / plain interpreter</div>
       </div>
     </div>
 
@@ -543,8 +544,8 @@
         </p>
         <ul style="margin:0; padding-left:18px;">
           <li><strong>128-Instruction Chaining:</strong> Consecutive instructions within basic blocks and loop bodies are chained and executed in C up to 128 instructions per dispatch.</li>
-          <li><strong>Branch Consultation:</strong> The engine halts execution precisely at conditional branches to consult the neural network for control-flow prediction.</li>
-          <li><strong>Throughput Amplification:</strong> Boosts effective throughput from ~780 kIPS to <strong>10.25+ MIPS</strong>, hitting DOOM's native 35.0 FPS target.</li>
+          <li><strong>Branch Consultation:</strong> The engine halts at each block terminator to consult the neural head; the prediction is scored against ground truth and the interpreter retires the true target.</li>
+          <li><strong>Dispatch Amortization:</strong> One ~15 &micro;s neural consultation per 128 interpreted instructions; the neural observer path runs ~9 MIPS while the plain interpreter reaches ~126 MIPS in the same WASM module (DOOM needs ~0.6M instructions per 35 Hz tic).</li>
         </ul>
       </div>
     </div>
@@ -748,7 +749,7 @@
               <td style="padding:6px 8px; color:var(--muted);">ARMv4T (Complex RISC)</td>
               <td style="padding:6px 8px; color:#fb923c;">~74,000</td>
               <td style="padding:6px 8px; color:var(--muted);">&mdash;</td>
-              <td style="padding:6px 8px;">Emulated in this repo (245+ MIPS) for complex ISA exploration</td>
+              <td style="padding:6px 8px;">Bare-metal ARMv4T DOOM port, interpreted in-browser (~115 MIPS WASM)</td>
             </tr>
             <tr style="border-bottom:1px solid #1e2230;">
               <td style="padding:6px 8px; font-weight:600; color:#fff;">PicoRV32 (2015)</td>
@@ -801,6 +802,76 @@
   let cpu = null;
   let rgbaPtr = null;
   let cachedRomBytes = null;
+
+  /* Per-architecture cores. The ARM32 option runs the real bare-metal ARMv4T
+   * DOOM port (web/doom_arm32.bin) on the ARM32 interpreter core; it is not a
+   * relabelled RV32I run. */
+  const rv32Core = { Module: null, cpu: null, rom: null, rgbaPtr: 0, booted: false };
+  const armCore = { Module: null, cpu: null, rom: null, rgbaPtr: 0, booted: false };
+  let armActive = false;
+  /* Probe addresses from web/symbols_arm.txt (nm of the ARM32 build). */
+  const ARM_PROBE = { gamestate: 0x0007ebf4, gametic: 0x00078c3c };
+
+  function installArmAliases(M) {
+    M._rv32i_create = M._arm32_create;
+    M._rv32i_free = M._arm32_free;
+    M._rv32i_init = M._arm32_init;
+    M._rv32i_load_binary_data = M._arm32_load_binary_data;
+    M._rv32i_run_steps = M._arm32_run_steps;
+    M._rv32i_step = M._arm32_step;
+    M._rv32i_probe_gs = M._arm32_probe_gs;
+    M._rv32i_probe_gametic = M._arm32_probe_gametic;
+    M._rv32i_push_key = M._arm32_push_key;
+    M._rv32i_queue_key = M._arm32_queue_key;
+    M._rv32i_clear_keys = M._arm32_clear_keys;
+    M._rv32i_get_frame_rgba = M._arm32_get_frame_rgba;
+    M._rv32i_get_vram_ptr = M._arm32_get_vram_ptr;
+    M._rv32i_get_pc = M._arm32_get_pc;
+    M._rv32i_set_pc = M._arm32_set_pc;
+    M._rv32i_get_steps_double = M._arm32_get_steps_double;
+    M._rv32i_get_timer_ms = M._arm32_get_timer_ms;
+    M._rv32i_get_reg = M._arm32_get_reg;
+    M._rv32i_is_halted = M._arm32_is_halted;
+    M._rv32i_get_ram_ptr = M._arm32_get_ram_ptr;
+    M._rv32i_step_block = (c, n) => M._arm32_run_steps(c, n);
+    M._rv32i_step_superblock = M._arm32_step_superblock;
+    M._rv32i_step_superblock_neural = M._arm32_step_superblock_neural;
+    M._rv32i_step_superblock_neural_burst = M._arm32_step_superblock_neural_burst;
+  }
+
+  async function ensureArmCore(note) {
+    if (armCore.Module) return armCore;
+    if (note) note('Initializing ARM32 (ARMv4T) WebAssembly core...');
+    armCore.Module = await createARM32Module();
+    installArmAliases(armCore.Module);
+    if (note) note('Downloading ARM32 DOOM binary (14 MB)...');
+    const resp = await fetch('doom_arm32.bin?v=' + Date.now());
+    if (!resp.ok) throw new Error('Failed to load doom_arm32.bin (HTTP ' + resp.status + ')');
+    armCore.rom = new Uint8Array(await resp.arrayBuffer());
+    return armCore;
+  }
+
+  function activateCore(core) {
+    Module = core.Module;
+    cpu = core.cpu;
+    rgbaPtr = core.rgbaPtr;
+    window.__guestRamBase = (core === armCore) ? 0x00000000 : 0x80000000;
+    window.__guestRamSize = (core === armCore) ? 32 * 1024 * 1024 : 17 * 1024 * 1024;
+    if (!core.cpu) {
+      cpu = core.cpu = Module._rv32i_create();
+      if (!cpu) throw new Error('Failed to create CPU instance');
+      if (Module._arm32_set_gamestate_addr) {
+        Module._arm32_set_gamestate_addr(cpu, ARM_PROBE.gamestate);
+        Module._arm32_set_gametic_addr(cpu, ARM_PROBE.gametic);
+      }
+      const romPtr = Module._malloc(core.rom.length);
+      Module.HEAPU8.set(core.rom, romPtr);
+      const loaded = Module._rv32i_load_binary_data(cpu, romPtr, core.rom.length);
+      Module._free(romPtr);
+      if (loaded <= 0) throw new Error('Failed to load ROM data into CPU RAM');
+      core.rgbaPtr = rgbaPtr = Module._malloc(SCREEN_W * SCREEN_H * 4);
+    }
+  }
 
   let isRunning = false;
   let speed = 0.0;
@@ -875,6 +946,13 @@
   let executionMode = 'neural'; // 'neural' | 'wasm'
 
   window.setExecutionMode = function(mode) {
+    if (armActive && mode === 'neural') {
+      const badge = document.getElementById('nn-provider-badge');
+      if (badge) {
+        badge.textContent = 'Embedded C/WASM: ARM32-trained Mamba-Nano';
+        badge.style.color = '#fbbf24';
+      }
+    }
     executionMode = mode;
     const nnBtn = document.getElementById('mode-nn-btn');
     const wasmBtn = document.getElementById('mode-wasm-btn');
@@ -1342,6 +1420,19 @@
     if (clampsLabel && report.safetyClamps !== undefined) {
       clampsLabel.textContent = `Clamps: ${report.safetyClamps.toLocaleString()}`;
     }
+    const fbLabel = document.getElementById('neural-fb-label');
+    if (fbLabel) {
+      if (armActive) {
+        const used = report.totalFallbackUsed || 0;
+        const corr = report.totalFallbackCorrect || 0;
+        const pct = used > 0 ? ((corr / used) * 100).toFixed(1) : '--';
+        fbLabel.textContent = `Fallback: ${used.toLocaleString()} used (${pct}% right)`;
+        fbLabel.style.color = '#fbbf24';
+      } else {
+        fbLabel.textContent = 'Fallback: n/a (RV32I)';
+        fbLabel.style.color = '#64748b';
+      }
+    }
 
     updateBlockInspector(false, report);
   }
@@ -1350,6 +1441,42 @@
     if (!cpu || !Module) return;
     const liveTab = document.getElementById('nn-live');
     if (!liveTab || !liveTab.classList.contains('active')) return;
+
+    if (armActive) {
+      const g = document.getElementById('block-disasm');
+      const p = document.getElementById('block-pred');
+      if (g && typeof Module._arm32_decode_prompt === 'function') {
+        const pb = Module._malloc(1024), mb = Module._malloc(64);
+        Module._arm32_decode_prompt(cpu, pb, 1024, mb, 64);
+        const mnem = Module.UTF8ToString(mb);
+        const prompt = Module.UTF8ToString(pb);
+        Module._free(pb); Module._free(mb);
+        g.textContent = '[ARM32 current instruction: ' + mnem + ']\n' + prompt;
+      }
+      if (p && neuralReport) {
+        const fmt = (v, d) => (v === undefined || v === null || Number.isNaN(v)) ? '--' : Number(v).toFixed(d);
+        p.textContent =
+          '[ARM32 Mamba-Nano head + bimodal fallback]\n' +
+          'branch logit : ' + fmt(neuralReport.branchLogit, 4) + '\n' +
+          'P(taken)     : ' + fmt(neuralReport.branchProb, 4) + '\n' +
+          'neural taken : ' + (neuralReport.branchDecision === undefined ? '--' : neuralReport.branchDecision) + '\n' +
+          'ground truth : ' + (neuralReport.groundTruth === undefined ? '--' : neuralReport.groundTruth) + '\n' +
+          'correct      : ' + (neuralReport.isCorrect === undefined ? '--' : neuralReport.isCorrect) + '\n' +
+          'session acc  : ' + fmt(neuralReport.branchAccuracy, 2) + '% (' +
+          (neuralReport.correctBranches || 0) + '/' + (neuralReport.totalBranches || 0) + ')\n' +
+          'bimodal fallback (2-bit PC counter, used when |P-0.5| small):\n' +
+          '  last block   : ' + (neuralReport.lastFallbackUsed ? 'YES (counter=' + (neuralReport.lastPcCounter || 0) + ')' : 'no (SSM head decided)') + '\n' +
+          '  burst        : ' + (neuralReport.fallbackUsedBurst || 0) + ' used, ' +
+          (neuralReport.fallbackOverrodeBurst || 0) + ' overrode SSM, ' +
+          (neuralReport.fallbackCorrectBurst || 0) + ' correct\n' +
+          '  session      : ' + (neuralReport.totalFallbackUsed || 0) + ' used, ' +
+          (neuralReport.totalFallbackOverrode || 0) + ' overrode, ' +
+          (neuralReport.totalFallbackCorrect || 0) + ' correct';
+      } else if (p) {
+        p.textContent = 'ARM32 Mamba-Nano head + bimodal fallback.\nUse Step / Neural Run to populate.';
+      }
+      return;
+    }
 
     try {
       if (andStep) {
@@ -1463,7 +1590,8 @@
           predText += `   (No memory writes in this block)\n`;
         }
 
-        predText += `\n4. Mamba SSM Recurrent State:\n`;
+        predText += `\n4. Bimodal Fallback: n/a (RV32I head is model-only; ARM32 head pairs with a 2-bit PC counter)\n`;
+        predText += `\n5. Mamba SSM Recurrent State:\n`;
         predText += `   State Norm ||h||:  ${neuralReport.stateNorm.toFixed(3)}\n`;
         predText += `   Recurrent Memory:  O(1) continuous state active across blocks\n`;
       } else {
@@ -1479,7 +1607,7 @@
           }
         }
 
-        predText += `[SAMBA BASIC BLOCK PREDICTOR - READY FOR FORWARD PASS]\n`;
+        predText += `[MAMBA-NANO BASIC BLOCK PREDICTOR - READY FOR FORWARD PASS]\n`;
         predText += `Architecture: Mamba SSM (O(1) Recurrent State) + SWA (W=32)\n`;
         predText += `Engine:       Ready for WebGPU forward pass execution\n\n`;
         predText += `1. Control Flow Prediction:\n`;
@@ -1541,6 +1669,10 @@
       if (loaded <= 0) throw new Error('Failed to load ROM data into CPU RAM');
 
       rgbaPtr = Module._malloc(SCREEN_W * SCREEN_H * 4);
+      rv32Core.Module = Module;
+      rv32Core.cpu = cpu;
+      rv32Core.rom = romBytes;
+      rv32Core.rgbaPtr = rgbaPtr;
 
 
       statusTitle.textContent = 'Booting DOOM Title Screen...';
@@ -1617,6 +1749,7 @@
       }
 
       // Default to 100% Neural Mode and start running immediately
+      rv32Core.booted = true;
       setExecutionMode('neural');
       updateSpeedLabel(speed);
 
@@ -1790,7 +1923,7 @@
   };
 
   async function restartDoom(arch) {
-    if (isRestarting || !Module || !cpu || !cachedRomBytes) return;
+    if (isRestarting || !Module || !cpu) return;
     isRestarting = true;
     currentArch = arch;
 
@@ -1802,7 +1935,9 @@
 
     const archName = (arch === 'arm32') ? 'ARM32 (ARMv4T)' : 'RISC-V (RV32I)';
     statusTitle.textContent = `Restarting DOOM on ${archName}...`;
-    statusDesc.textContent = 'Resetting CPU memory, registers, and booting E1M1 from start...';
+    statusDesc.textContent = (arch === 'arm32')
+      ? 'Loading the bare-metal ARMv4T DOOM port onto the ARM32 interpreter core...'
+      : 'Resetting CPU memory, registers, and booting E1M1 from start...';
     pbar.style.width = '35%';
     overlay.style.display = 'flex';
 
@@ -1813,25 +1948,37 @@
     if (archSelect) archSelect.value = arch;
 
     if (arch === 'arm32') {
-      if (archTitle) archTitle.innerHTML = '<span>DOOM</span> ARM32 &middot; Samba Neural Core';
-      if (archSub) archSub.textContent = 'ARM32 (ARMv4T) Architecture DOOM with Samba (Mamba SSM + SWA) Basic Block Neural Predictor';
+      if (archTitle) archTitle.innerHTML = '<span>DOOM</span> ARM32 &middot; Interpreter Core';
+      if (archSub) archSub.textContent = 'Bare-metal ARMv4T DOOM on the ARM32 interpreter core with its own ARM-trained Mamba-Nano head + 2-bit bimodal fallback; Neural Mode by default';
     } else {
-      if (archTitle) archTitle.innerHTML = '<span>DOOM</span> RV32I &middot; Samba Neural Core';
-      if (archSub) archSub.textContent = 'Bare-Metal RV32I DOOM with Samba (Mamba SSM + SWA) Basic Block Neural Predictor';
+      if (archTitle) archTitle.innerHTML = '<span>DOOM</span> RV32I &middot; Mamba-Nano Neural Core';
+      if (archSub) archSub.textContent = 'Bare-metal RV32I DOOM with a Mamba-Nano (selective SSM) basic-block predictor; ground-truth retirement';
     }
 
     await new Promise(r => setTimeout(r, 60));
 
-    // Reset CPU registers and RAM
-    Module._rv32i_init(cpu);
-    const romPtr = Module._malloc(cachedRomBytes.length);
-    Module.HEAPU8.set(cachedRomBytes, romPtr);
-    const loaded = Module._rv32i_load_binary_data(cpu, romPtr, cachedRomBytes.length);
-    Module._free(romPtr);
-    if (loaded <= 0) console.warn('Failed to reload ROM data into CPU RAM');
+    // Switch to the requested core and reboot DOOM from reset on it
+    const core = (arch === 'arm32') ? armCore : rv32Core;
+    try {
+      if (arch === 'arm32') await ensureArmCore(t => { statusDesc.textContent = t; });
+      if (core.cpu) {
+        if (core.rgbaPtr && core.Module) core.Module._free(core.rgbaPtr);
+        if (core.Module && core.Module._rv32i_free) core.Module._rv32i_free(core.cpu);
+        core.cpu = null;
+        core.rgbaPtr = 0;
+      }
+      armActive = (arch === 'arm32');
+      activateCore(core);
+    } catch (err) {
+      console.error('[ARCH] core switch failed:', err);
+      statusTitle.textContent = `Architecture switch failed`;
+      statusDesc.textContent = err.message || String(err);
+      isRestarting = false;
+      return;
+    }
 
-    // Reset Neural Engine recurrent state (hidden states h and sliding window attention buffer)
-    if (window.neuralEngine) {
+    // Reset Neural Engine recurrent state (RV32I core only)
+    if (window.neuralEngine && !armActive) {
       window.neuralEngine.resetRecurrentState(Module);
       updateNeuralInspectorDisplay();
     }
@@ -1892,10 +2039,12 @@
     if (framesLabel) framesLabel.textContent = 'Frames: 0';
     if (stepsLabel) stepsLabel.textContent = 'Steps: 0';
     if (timeLabel) timeLabel.textContent = 'Time: 0.0s';
-    if (fpsLabel) fpsLabel.textContent = (executionMode === 'neural' ? 'Neural: 35.0 FPS' : 'Game: 35.0 FPS');
-    if (mipsLabel) mipsLabel.textContent = '10.25 MIPS';
+    if (fpsLabel) fpsLabel.textContent = (executionMode === 'neural') ? 'Neural: -- FPS' : 'Game: -- FPS';
+    if (mipsLabel) mipsLabel.textContent = '-- MIPS';
     if (gsLabel) gsLabel.textContent = 'PLAYING';
 
+    setExecutionMode('neural');
+    updateBlockInspector(false);
     renderCanvas();
     overlay.style.display = 'none';
     isRunning = true;

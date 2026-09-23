@@ -1,5 +1,6 @@
 #include "mamba_nano.h"
 #include "mamba_nano_weights.h"
+#include "mamba_nano_arm_weights.h"
 #include <string.h>
 #include <math.h>
 
@@ -9,16 +10,57 @@
 #include <immintrin.h>
 #endif
 
-static float s_a_neg[2][1024];
-static int s_tables_initialized = 0;
+/* One trained Mamba-Nano weight set. The RV32I and ARM32 guests each get
+ * their own predictor (trained on their own basic-block traces); the math
+ * below is shared. */
+typedef struct {
+    const float *w_pc_proj, *b_pc_proj, *w_regs_proj, *b_regs_proj;
+    const float *l_w_in[2], *l_conv_w[2], *l_conv_b[2], *l_w_xproj[2];
+    const float *l_w_dtproj[2], *l_b_dtproj[2], *l_a_log[2], *l_d[2], *l_w_outproj[2];
+    const float *ln_w, *ln_b, *w_head_branch, *b_head_branch, *w_head_pc, *b_head_pc;
+    float a_neg[2][1024];
+    int tables_ready;
+} MambaNanoWeights;
 
-static void mamba_nano_init_tables(void) {
-    if (s_tables_initialized) return;
+static MambaNanoWeights s_w_rv32 = {
+    MAMBA_W_PC_PROJ, MAMBA_B_PC_PROJ, MAMBA_W_REGS_PROJ, MAMBA_B_REGS_PROJ,
+    { MAMBA_L0_W_IN, MAMBA_L1_W_IN },
+    { MAMBA_L0_CONV_W, MAMBA_L1_CONV_W },
+    { MAMBA_L0_CONV_B, MAMBA_L1_CONV_B },
+    { MAMBA_L0_W_XPROJ, MAMBA_L1_W_XPROJ },
+    { MAMBA_L0_W_DTPROJ, MAMBA_L1_W_DTPROJ },
+    { MAMBA_L0_B_DTPROJ, MAMBA_L1_B_DTPROJ },
+    { MAMBA_L0_A_LOG, MAMBA_L1_A_LOG },
+    { MAMBA_L0_D, MAMBA_L1_D },
+    { MAMBA_L0_W_OUTPROJ, MAMBA_L1_W_OUTPROJ },
+    MAMBA_LN_W, MAMBA_LN_B, MAMBA_W_HEAD_BRANCH, MAMBA_B_HEAD_BRANCH,
+    MAMBA_W_HEAD_PC, MAMBA_B_HEAD_PC,
+    { { 0 } }, 0
+};
+
+static MambaNanoWeights s_w_arm = {
+    MAMBA_ARM_W_PC_PROJ, MAMBA_ARM_B_PC_PROJ, MAMBA_ARM_W_REGS_PROJ, MAMBA_ARM_B_REGS_PROJ,
+    { MAMBA_ARM_L0_W_IN, MAMBA_ARM_L1_W_IN },
+    { MAMBA_ARM_L0_CONV_W, MAMBA_ARM_L1_CONV_W },
+    { MAMBA_ARM_L0_CONV_B, MAMBA_ARM_L1_CONV_B },
+    { MAMBA_ARM_L0_W_XPROJ, MAMBA_ARM_L1_W_XPROJ },
+    { MAMBA_ARM_L0_W_DTPROJ, MAMBA_ARM_L1_W_DTPROJ },
+    { MAMBA_ARM_L0_B_DTPROJ, MAMBA_ARM_L1_B_DTPROJ },
+    { MAMBA_ARM_L0_A_LOG, MAMBA_ARM_L1_A_LOG },
+    { MAMBA_ARM_L0_D, MAMBA_ARM_L1_D },
+    { MAMBA_ARM_L0_W_OUTPROJ, MAMBA_ARM_L1_W_OUTPROJ },
+    MAMBA_ARM_LN_W, MAMBA_ARM_LN_B, MAMBA_ARM_W_HEAD_BRANCH, MAMBA_ARM_B_HEAD_BRANCH,
+    MAMBA_ARM_W_HEAD_PC, MAMBA_ARM_B_HEAD_PC,
+    { { 0 } }, 0
+};
+
+static void weights_init_tables(MambaNanoWeights *w) {
+    if (w->tables_ready) return;
     for (int i = 0; i < 1024; i++) {
-        s_a_neg[0][i] = -expf(MAMBA_L0_A_LOG[i]);
-        s_a_neg[1][i] = -expf(MAMBA_L1_A_LOG[i]);
+        w->a_neg[0][i] = -expf(w->l_a_log[0][i]);
+        w->a_neg[1][i] = -expf(w->l_a_log[1][i]);
     }
-    s_tables_initialized = 1;
+    w->tables_ready = 1;
 }
 
 static inline float silu(float x) {
@@ -70,7 +112,6 @@ static inline void matvec_simd(const float *x, const float *w, const float *bias
 }
 
 void mamba_nano_reset_state(MambaNanoState *state) {
-    if (!s_tables_initialized) mamba_nano_init_tables();
     if (!state) return;
     memset(state->s0, 0, sizeof(state->s0));
     memset(state->s1, 0, sizeof(state->s1));
@@ -85,33 +126,34 @@ float mamba_nano_get_state_norm(const MambaNanoState *state) {
     return sqrtf(sum_sq);
 }
 
-void mamba_nano_step(MambaNanoState *state,
-                     const float *pc_bits,
-                     const float *regs_norm,
-                     float *out_branch_logit,
-                     float *out_pc_offset) {
-    if (!s_tables_initialized) mamba_nano_init_tables();
+static void mamba_nano_step_w(MambaNanoWeights *w,
+                              MambaNanoState *state,
+                              const float *pc_bits,
+                              const float *regs_norm,
+                              float *out_branch_logit,
+                              float *out_pc_offset) {
+    weights_init_tables(w);
 
     float h[64];
 
     /* 1. PC Projection: (32) -> (16) */
-    matvec_simd(pc_bits, MAMBA_W_PC_PROJ, MAMBA_B_PC_PROJ, h, 32, 16);
+    matvec_simd(pc_bits, w->w_pc_proj, w->b_pc_proj, h, 32, 16);
 
     /* 2. Regs Projection: (32) -> (48) */
-    matvec_simd(regs_norm, MAMBA_W_REGS_PROJ, MAMBA_B_REGS_PROJ, h + 16, 32, 48);
+    matvec_simd(regs_norm, w->w_regs_proj, w->b_regs_proj, h + 16, 32, 48);
 
     /* 3. Mamba Layers (2 layers) */
     for (int l = 0; l < 2; l++) {
         float *s = (l == 0) ? state->s0 : state->s1;
-        const float *w_in = (l == 0) ? MAMBA_L0_W_IN : MAMBA_L1_W_IN;
-        const float *conv_w = (l == 0) ? MAMBA_L0_CONV_W : MAMBA_L1_CONV_W;
-        const float *conv_b = (l == 0) ? MAMBA_L0_CONV_B : MAMBA_L1_CONV_B;
-        const float *w_xproj = (l == 0) ? MAMBA_L0_W_XPROJ : MAMBA_L1_W_XPROJ;
-        const float *w_dtproj = (l == 0) ? MAMBA_L0_W_DTPROJ : MAMBA_L1_W_DTPROJ;
-        const float *b_dtproj = (l == 0) ? MAMBA_L0_B_DTPROJ : MAMBA_L1_B_DTPROJ;
-        const float *d_param = (l == 0) ? MAMBA_L0_D : MAMBA_L1_D;
-        const float *w_outproj = (l == 0) ? MAMBA_L0_W_OUTPROJ : MAMBA_L1_W_OUTPROJ;
-        const float *a_neg_l = (l == 0) ? s_a_neg[0] : s_a_neg[1];
+        const float *w_in = w->l_w_in[l];
+        const float *conv_w = w->l_conv_w[l];
+        const float *conv_b = w->l_conv_b[l];
+        const float *w_xproj = w->l_w_xproj[l];
+        const float *w_dtproj = w->l_w_dtproj[l];
+        const float *b_dtproj = w->l_b_dtproj[l];
+        const float *d_param = w->l_d[l];
+        const float *w_outproj = w->l_w_outproj[l];
+        const float *a_neg_l = w->a_neg[l];
 
         /* In-projection: (64) -> (128) */
         float in_proj[128];
@@ -119,7 +161,7 @@ void mamba_nano_step(MambaNanoState *state,
         const float *x_in = in_proj;
         const float *z = in_proj + 64;
 
-        /* 1D Depthwise Conv: x_conv = x_in * conv_w + conv_b */
+        /* 1D Depthwise Conv (single tap at deployment, matches export) */
         float x_act[64];
 #if defined(__wasm_simd128__)
         for (int j = 0; j < 64; j += 4) {
@@ -269,8 +311,8 @@ void mamba_nano_step(MambaNanoState *state,
         v128_t v_h = wasm_v128_load(&h[j]);
         v128_t v_diff = wasm_f32x4_sub(v_h, v_mean);
         v128_t v_norm = wasm_f32x4_mul(v_diff, v_inv_std);
-        v128_t v_w = wasm_v128_load(&MAMBA_LN_W[j]);
-        v128_t v_b = wasm_v128_load(&MAMBA_LN_B[j]);
+        v128_t v_w = wasm_v128_load(&w->ln_w[j]);
+        v128_t v_b = wasm_v128_load(&w->ln_b[j]);
         v128_t v_res = wasm_f32x4_add(wasm_f32x4_mul(v_norm, v_w), v_b);
         wasm_v128_store(&h_ln[j], v_res);
     }
@@ -281,25 +323,25 @@ void mamba_nano_step(MambaNanoState *state,
         __m256 v_h = _mm256_loadu_ps(&h[j]);
         __m256 v_diff = _mm256_sub_ps(v_h, v_mean);
         __m256 v_norm = _mm256_mul_ps(v_diff, v_inv_std);
-        __m256 v_w = _mm256_loadu_ps(&MAMBA_LN_W[j]);
-        __m256 v_b = _mm256_loadu_ps(&MAMBA_LN_B[j]);
+        __m256 v_w = _mm256_loadu_ps(&w->ln_w[j]);
+        __m256 v_b = _mm256_loadu_ps(&w->ln_b[j]);
         __m256 v_res = _mm256_fmadd_ps(v_norm, v_w, v_b);
         _mm256_storeu_ps(&h_ln[j], v_res);
     }
 #else
     for (int j = 0; j < 64; j++) {
-        h_ln[j] = (h[j] - mean) * inv_std * MAMBA_LN_W[j] + MAMBA_LN_B[j];
+        h_ln[j] = (h[j] - mean) * inv_std * w->ln_w[j] + w->ln_b[j];
     }
 #endif
 
     /* 5. Heads */
     if (out_branch_logit) {
-        float acc = MAMBA_B_HEAD_BRANCH[0];
+        float acc = w->b_head_branch[0];
 #if defined(__wasm_simd128__)
         v128_t v_acc = wasm_f32x4_splat(0.0f);
         for (int j = 0; j < 64; j += 4) {
             v128_t v_h = wasm_v128_load(&h_ln[j]);
-            v128_t v_w = wasm_v128_load(&MAMBA_W_HEAD_BRANCH[j]);
+            v128_t v_w = wasm_v128_load(&w->w_head_branch[j]);
             v_acc = wasm_f32x4_add(v_acc, wasm_f32x4_mul(v_h, v_w));
         }
         float arr[4];
@@ -307,19 +349,19 @@ void mamba_nano_step(MambaNanoState *state,
         acc += arr[0] + arr[1] + arr[2] + arr[3];
 #else
         for (int j = 0; j < 64; j++) {
-            acc += h_ln[j] * MAMBA_W_HEAD_BRANCH[j];
+            acc += h_ln[j] * w->w_head_branch[j];
         }
 #endif
         *out_branch_logit = acc;
     }
 
     if (out_pc_offset) {
-        float acc = MAMBA_B_HEAD_PC[0];
+        float acc = w->b_head_pc[0];
 #if defined(__wasm_simd128__)
         v128_t v_acc = wasm_f32x4_splat(0.0f);
         for (int j = 0; j < 64; j += 4) {
             v128_t v_h = wasm_v128_load(&h_ln[j]);
-            v128_t v_w = wasm_v128_load(&MAMBA_W_HEAD_PC[j]);
+            v128_t v_w = wasm_v128_load(&w->w_head_pc[j]);
             v_acc = wasm_f32x4_add(v_acc, wasm_f32x4_mul(v_h, v_w));
         }
         float arr[4];
@@ -327,11 +369,27 @@ void mamba_nano_step(MambaNanoState *state,
         acc += arr[0] + arr[1] + arr[2] + arr[3];
 #else
         for (int j = 0; j < 64; j++) {
-            acc += h_ln[j] * MAMBA_W_HEAD_PC[j];
+            acc += h_ln[j] * w->w_head_pc[j];
         }
 #endif
         *out_pc_offset = acc;
     }
+}
+
+void mamba_nano_step(MambaNanoState *state,
+                     const float *pc_bits,
+                     const float *regs_norm,
+                     float *out_branch_logit,
+                     float *out_pc_offset) {
+    mamba_nano_step_w(&s_w_rv32, state, pc_bits, regs_norm, out_branch_logit, out_pc_offset);
+}
+
+void mamba_nano_step_arm(MambaNanoState *state,
+                         const float *pc_bits,
+                         const float *regs_norm,
+                         float *out_branch_logit,
+                         float *out_pc_offset) {
+    mamba_nano_step_w(&s_w_arm, state, pc_bits, regs_norm, out_branch_logit, out_pc_offset);
 }
 
 void mamba_nano_step_from_pc_regs(MambaNanoState *state,
@@ -350,4 +408,22 @@ void mamba_nano_step_from_pc_regs(MambaNanoState *state,
     }
 
     mamba_nano_step(state, pc_bits, regs_norm, out_branch_logit, out_pc_offset);
+}
+
+void mamba_nano_arm_step_from_pc_regs(MambaNanoState *state,
+                                      uint32_t pc,
+                                      const uint32_t *regs,
+                                      float *out_branch_logit,
+                                      float *out_pc_offset) {
+    float pc_bits[32];
+    for (int i = 0; i < 32; i++) {
+        pc_bits[i] = (float)((pc >> i) & 1);
+    }
+
+    float regs_norm[32];
+    for (int r = 0; r < 32; r++) {
+        regs_norm[r] = log1pf((float)regs[r]) / 22.2f;
+    }
+
+    mamba_nano_step_arm(state, pc_bits, regs_norm, out_branch_logit, out_pc_offset);
 }

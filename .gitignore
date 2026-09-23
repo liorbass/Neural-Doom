@@ -2,6 +2,7 @@
 .venv/
 venv/
 toolchain/
+toolchain-arm/
 rv-toolchain.tar.gz
 __pycache__/
 *.py[cod]
@@ -24,6 +25,7 @@ frame*.png
 
 # --- build outputs ---
 emulator/emulator
+emulator/emulator_arm32
 emulator/test_arm32
 emulator/*.so
 *.so
@@ -31,6 +33,8 @@ doom_rv32i
 doom_rv32i.bin
 doom_rv32i.map
 !web/doom_rv32i.bin
+doom_arm32.bin
+!web/doom_arm32.bin
 symbols.txt
 
 # --- editor / agent state ---
@@ -40,3 +44,4 @@ symbols.txt
 
 # --- uv ---
 .venv/
+model/doom_blocks_arm.jsonl

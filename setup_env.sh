@@ -17,6 +17,11 @@ GCC_DIR="xpack-riscv-none-elf-gcc-${GCC_VER}"
 GCC_URL="https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v${GCC_VER}/${GCC_DIR}-linux-x64.tar.gz"
 TOOLCHAIN="$ROOT/toolchain"
 
+ARM_GCC_VER="15.2.1-1.1"
+ARM_GCC_DIR="xpack-arm-none-eabi-gcc-${ARM_GCC_VER}"
+ARM_GCC_URL="https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v${ARM_GCC_VER}/${ARM_GCC_DIR}-linux-x64.tar.gz"
+TOOLCHAIN_ARM="$ROOT/toolchain-arm"
+
 # pinned for reproducibility; bump deliberately
 DOOMGENERIC_REPO="https://github.com/ozkl/doomgeneric.git"
 DOOMGENERIC_SHA="dcb7a8dbc7a16ce3dda29382ac9aae9d77d21284"
@@ -36,6 +41,18 @@ else
     echo "    already present: $("$TOOLCHAIN/bin/riscv-none-elf-gcc" --version | head -1)"
 fi
 
+echo "==> ARM32 (arm-none-eabi) toolchain"
+if [ ! -x "$TOOLCHAIN_ARM/bin/arm-none-eabi-gcc" ]; then
+    echo "    downloading ${ARM_GCC_DIR} (~300 MB, one-time)..."
+    TMP="$(mktemp -d)"
+    trap 'rm -rf "$TMP"' EXIT
+    curl -fL --retry 3 -o "$TMP/gcc.tar.gz" "$ARM_GCC_URL"
+    tar -xzf "$TMP/gcc.tar.gz" -C "$TMP"
+    mv "$TMP/$ARM_GCC_DIR" "$TOOLCHAIN_ARM"
+else
+    echo "    already present: $("$TOOLCHAIN_ARM/bin/arm-none-eabi-gcc" --version | head -1)"
+fi
+
 echo "==> doomgeneric"
 if [ ! -d "$ROOT/doomgeneric" ]; then
     git clone "$DOOMGENERIC_REPO" "$ROOT/doomgeneric"
@@ -46,7 +63,9 @@ BUILD_DIR="$ROOT/doomgeneric/doomgeneric"
 echo "==> copying port files into $BUILD_DIR"
 cp "$ROOT/port/start.s" "$ROOT/port/link.ld" "$ROOT/port/doomgeneric_rv32i.c" \
    "$ROOT/port/syscalls.c" "$ROOT/port/wadadd.py" "$ROOT/port/e1m1uv.lmp" "$BUILD_DIR/"
+cp "$ROOT/port/start_arm.s" "$ROOT/port/link_arm.ld" "$BUILD_DIR/"
 cp "$ROOT/port/Makefile.rv32i" "$BUILD_DIR/Makefile"
+cp "$ROOT/port/Makefile.arm32" "$BUILD_DIR/Makefile.arm32"
 
 echo "==> DOOM shareware WAD"
 if [ ! -f "$BUILD_DIR/doom1.wad" ]; then
@@ -74,6 +93,14 @@ make -C "$BUILD_DIR" -j"$(nproc)"
 make -C "$BUILD_DIR" wad      # truncate to 10M + append doom1.wad at 0x80A00000
 make -C "$BUILD_DIR" symbols  # gamestate/gametic/... -> symbols.txt
 make -C "$BUILD_DIR" demo     # first-level-completion build -> doom_rv32i_demo.bin
+
+echo "==> building bare-metal DOOM (arm32, armv4t)"
+make -C "$BUILD_DIR" -f Makefile.arm32 clean
+make -C "$BUILD_DIR" -f Makefile.arm32 -j"$(nproc)"
+make -C "$BUILD_DIR" -f Makefile.arm32 wad
+make -C "$BUILD_DIR" -f Makefile.arm32 symbols
+install -m 755 "$BUILD_DIR/doom_arm32.bin" "$ROOT/web/doom_arm32.bin"
+install -m 644 "$BUILD_DIR/symbols_arm.txt" "$ROOT/web/symbols_arm.txt"
 
 echo
 echo "==> Build complete: $BUILD_DIR/doom_rv32i.bin ($(stat -c%s "$BUILD_DIR/doom_rv32i.bin") bytes)"

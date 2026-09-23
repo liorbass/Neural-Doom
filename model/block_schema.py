@@ -37,8 +37,9 @@ class BlockTransition(BaseModel):
     end_pc: int = Field(ge=0, le=MASK32)
     next_pc: int = Field(ge=0, le=MASK32)
     instruction_count: int = Field(ge=1)
-    # Registers before execution
-    regs_in: list[int] = Field(min_length=32, max_length=32)
+    # Registers before execution (16 on ARM32 traces, 32 on RV32I; the
+    # trainer zero-pads to the 32-wide feature vector)
+    regs_in: list[int] = Field(min_length=16, max_length=32)
     # Register modifications during block: {reg_idx: new_val}
     reg_writes: dict[int, int] = Field(default_factory=dict)
     # Memory writes during block: list of (addr, val, size)

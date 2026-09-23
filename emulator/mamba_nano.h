@@ -29,6 +29,11 @@ void mamba_nano_step_from_pc_regs(MambaNanoState *state,
                                   const uint32_t *regs,
                                   float *out_branch_logit,
                                   float *out_pc_offset);
+void mamba_nano_arm_step_from_pc_regs(MambaNanoState *state,
+                                      uint32_t pc,
+                                      const uint32_t *regs,
+                                      float *out_branch_logit,
+                                      float *out_pc_offset);
 
 /* Calculate L2 norm of s0 state for telemetry */
 float mamba_nano_get_state_norm(const MambaNanoState *state);

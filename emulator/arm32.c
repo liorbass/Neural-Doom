@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 const char *const ARM32_REG_NAMES[16] = {
     "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
@@ -177,6 +178,10 @@ void arm32_mem_write(ARM32_CPU *cpu, uint32_t addr, int size, uint32_t val) {
     if (addr >= 0xFFFF0000u) {
         if (addr == ARM32_MMIO_KBD) {
             cpu->keyboard = val;
+        } else if (addr == ARM32_MMIO_CONS) {
+#ifndef __EMSCRIPTEN__
+            fputc((int)(val & 0xFF), stderr);
+#endif
         }
         return;
     }
@@ -229,6 +234,14 @@ uint32_t arm32_probe_gametic(const ARM32_CPU *cpu) {
     if (cpu->gametic_addr == 0 || cpu->gametic_addr >= ARM32_RAM_SIZE)
         return 0;
     return *(const uint32_t *)(cpu->ram + cpu->gametic_addr);
+}
+
+void arm32_set_gamestate_addr(ARM32_CPU *cpu, uint32_t addr) {
+    if (cpu) cpu->gamestate_addr = addr;
+}
+
+void arm32_set_gametic_addr(ARM32_CPU *cpu, uint32_t addr) {
+    if (cpu) cpu->gametic_addr = addr;
 }
 
 /* Barrel shifter helper */
@@ -319,6 +332,13 @@ static uint32_t shift_operand(ARM32_CPU *cpu, uint32_t inst, int *carry_out) {
 int arm32_step(ARM32_CPU *cpu) {
     if (cpu->halted) return 0;
 
+    if (cpu->cpsr & ARM32_FLAG_T) {
+        fprintf(stderr, "[ARM32] Thumb state entered at pc=%08x (unsupported)\n",
+                cpu->r[15]);
+        cpu->halted = 1;
+        return 0;
+    }
+
     uint32_t pc = cpu->r[15];
     uint32_t offset = pc;
     if (offset >= 0x80000000u) offset -= 0x80000000u;
@@ -396,6 +416,43 @@ int arm32_step(ARM32_CPU *cpu) {
             uint32_t flags = cpu->cpsr & ~(ARM32_FLAG_N | ARM32_FLAG_Z);
             if (res & 0x80000000u) flags |= ARM32_FLAG_N;
             if (res == 0) flags |= ARM32_FLAG_Z;
+            cpu->cpsr = flags;
+            cpu->has_write_cpsr = 1;
+            cpu->write_cpsr_val = flags;
+        }
+    }
+    /* 64-bit Multiply: UMULL / UMLAL / SMULL / SMLAL (libgcc soft-float) */
+    else if ((((inst >> 22) & 0x3F) == 2 || ((inst >> 22) & 0x3F) == 3) &&
+             ((inst >> 4) & 0xF) == 9) {
+        int signed_mul = ((inst >> 22) & 1);
+        int accumulate = (inst >> 21) & 1;
+        int s = (inst >> 20) & 1;
+        uint32_t rdhi = (inst >> 16) & 0xF;
+        uint32_t rdlo = (inst >> 12) & 0xF;
+        uint32_t rm = (inst >> 8) & 0xF;
+        uint32_t rs = inst & 0xF;
+
+        uint64_t prod;
+        if (signed_mul) {
+            prod = (uint64_t)((int64_t)(int32_t)cpu->r[rm] *
+                              (int64_t)(int32_t)cpu->r[rs]);
+        } else {
+            prod = (uint64_t)cpu->r[rm] * (uint64_t)cpu->r[rs];
+        }
+        if (accumulate) {
+            prod += ((uint64_t)cpu->r[rdhi] << 32) | (uint64_t)cpu->r[rdlo];
+        }
+
+        cpu->r[rdlo] = (uint32_t)(prod & 0xFFFFFFFFu);
+        cpu->r[rdhi] = (uint32_t)(prod >> 32);
+        cpu->has_write_reg = 1;
+        cpu->write_reg_rd = rdlo;
+        cpu->write_reg_val = cpu->r[rdlo];
+
+        if (s) {
+            uint32_t flags = cpu->cpsr & ~(ARM32_FLAG_N | ARM32_FLAG_Z);
+            if (prod & 0x8000000000000000ull) flags |= ARM32_FLAG_N;
+            if (prod == 0) flags |= ARM32_FLAG_Z;
             cpu->cpsr = flags;
             cpu->has_write_cpsr = 1;
             cpu->write_cpsr_val = flags;
@@ -659,6 +716,7 @@ int arm32_step(ARM32_CPU *cpu) {
     else cpu->r[15] = next_pc;
 
     cpu->steps++;
+    cpu->timer_ms = (uint32_t)(cpu->steps / ARM32_TIMER_STEPS_PER_MS);
     return 1;
 }
 
@@ -808,7 +866,14 @@ uint8_t *arm32_get_vram_ptr(ARM32_CPU *cpu) {
 
 void arm32_get_frame_rgba(ARM32_CPU *cpu, uint32_t *rgba_out) {
     const uint8_t *vram = arm32_get_vram_ptr(cpu);
-    memcpy(rgba_out, vram, ARM32_MMIO_VRAM_SIZE);
+    for (int p = 0; p < (int)(ARM32_MMIO_VRAM_SIZE / 4); p++) {
+        uint32_t px;
+        memcpy(&px, vram + p * 4, 4);
+        uint32_t r = (px >> 16) & 0xff;
+        uint32_t g = (px >> 8) & 0xff;
+        uint32_t b = px & 0xff;
+        rgba_out[p] = 0xFF000000u | (b << 16) | (g << 8) | r;
+    }
 }
 
 uint32_t arm32_get_pc(const ARM32_CPU *cpu) { return cpu->r[15]; }
@@ -883,4 +948,266 @@ int arm32_load_checkpoint(ARM32_CPU *cpu, const char *path) {
 
     fclose(f);
     return 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Superblock stepping + Mamba-Nano observer (mirrors rv32i.c)         */
+/*                                                                     */
+/* A superblock ends before any instruction that can alter control     */
+/* flow unexpectedly: predicated instructions (cond != AL), B/BL and   */
+/* BX. The neural head predicts the block exit direction; execution    */
+/* always retires the ground-truth outcome (the interpreter steps the  */
+/* terminating instruction), exactly like the RV32I engine.            */
+/* ------------------------------------------------------------------ */
+
+#include "mamba_nano.h"
+
+#define ARM32_PC_CTR_ENTRIES 4096
+static uint8_t s_pc_counter[ARM32_PC_CTR_ENTRIES];
+static uint64_t s_fb_used, s_fb_overrode, s_fb_correct;
+
+static int arm32_inst_fetch(const ARM32_CPU *cpu, uint32_t pc, uint32_t *inst) {
+    uint32_t off = pc;
+    if (off >= 0x80000000u) off -= 0x80000000u;
+    if (off + 4 > ARM32_RAM_SIZE) return 0;
+    memcpy(inst, cpu->ram + off, 4);
+    return 1;
+}
+
+int arm32_step_superblock(ARM32_CPU *cpu, uint32_t max_insts, uint32_t *out_info) {
+    if (!cpu || cpu->halted) return 0;
+    uint32_t start_pc = cpu->r[15];
+    uint32_t term_pc = start_pc;
+    uint32_t term_inst = 0;
+    uint32_t branch_target = 0;
+    uint32_t fallthrough_pc = start_pc + 4;
+    uint32_t inst_count = 0;
+    uint32_t is_branch = 0;
+    uint32_t term_op = 0;
+
+    while (!cpu->halted && inst_count < max_insts) {
+        uint32_t pc = cpu->r[15];
+        uint32_t inst;
+        if (!arm32_inst_fetch(cpu, pc, &inst) || inst == 0) { cpu->halted = 1; break; }
+
+        uint32_t cond = (inst >> 28) & 0xF;
+        uint32_t cls = (inst >> 25) & 7;
+        int is_bx = ((inst & 0x0FFFFFF0u) == 0x012FFF10u);
+        int terminates = (cond != ARM32_COND_AL) || (cls == 5) || is_bx;
+
+        if (terminates) {
+            term_pc = pc;
+            term_inst = inst;
+            is_branch = 1;
+            term_op = cond;
+            if (cls == 5) {
+                int32_t imm24 = (int32_t)(inst & 0x00FFFFFF);
+                if (imm24 & 0x00800000) imm24 |= 0xFF000000;
+                branch_target = pc + (uint32_t)((imm24 << 2) + 8);
+            } else if (is_bx) {
+                branch_target = cpu->r[inst & 0xF];
+            }
+            fallthrough_pc = pc + 4;
+            break;
+        }
+
+        arm32_step(cpu);
+        inst_count++;
+    }
+
+    if (out_info) {
+        out_info[0] = start_pc;
+        out_info[1] = term_pc;
+        out_info[2] = term_inst;
+        out_info[3] = branch_target;
+        out_info[4] = fallthrough_pc;
+        out_info[5] = inst_count;
+        out_info[6] = is_branch;
+        out_info[7] = term_op;
+    }
+    return (int)inst_count;
+}
+
+int arm32_step_superblock_neural(ARM32_CPU *cpu, void *state, uint32_t max_insts,
+                                 uint32_t *out_info) {
+    if (!cpu || cpu->halted) return 0;
+
+    uint32_t sb[8];
+    int inst_count = arm32_step_superblock(cpu, max_insts, sb);
+    if (cpu->halted) {
+        if (out_info) memcpy(out_info, sb, sizeof(uint32_t) * 8);
+        return inst_count;
+    }
+
+    uint32_t term_pc = sb[1];
+    uint32_t term_inst = sb[2];
+    uint32_t is_branch = sb[6];
+
+    float branch_logit = 0.0f, pc_offset = 0.0f;
+    uint32_t ground_truth = 0, neural_taken = 0, is_correct = 0;
+    uint32_t next_pc = cpu->r[15];
+
+    if (state) {
+        uint32_t regs32[32];
+        for (int i = 0; i < 16; i++) regs32[i] = cpu->r[i];
+        for (int i = 16; i < 32; i++) regs32[i] = 0;
+        mamba_nano_arm_step_from_pc_regs((MambaNanoState *)state, term_pc, regs32,
+                                     &branch_logit, &pc_offset);
+    }
+    float branch_prob = 1.0f / (1.0f + expf(-branch_logit));
+    neural_taken = (branch_prob > 0.5f) ? 1 : 0;
+
+    /* Confidence-gated 2-bit saturating counter per block PC (classic
+     * bimodal predictor): when the SSM head is unsure, fall back to the
+     * local history table, exactly like a real CPU's front-end. */
+    uint32_t ctr_key = (term_pc >> 2) & (ARM32_PC_CTR_ENTRIES - 1);
+    int ctr_taken = s_pc_counter[ctr_key] >= 2;
+    uint32_t fb_used = 0;
+    if (is_branch && term_inst != 0 && branch_prob > 0.35f && branch_prob < 0.65f) {
+        fb_used = 1;
+        s_fb_used++;
+        if ((uint32_t)ctr_taken != (branch_prob > 0.5f)) s_fb_overrode++;
+    }
+    if (fb_used) neural_taken = ctr_taken ? 1 : 0;
+
+    if (is_branch && term_inst != 0) {
+        uint32_t t_pc = term_pc;
+        arm32_step(cpu);           /* retire ground truth */
+        inst_count++;
+        next_pc = cpu->r[15];
+        ground_truth = (next_pc != t_pc + 4) ? 1 : 0;
+        is_correct = (neural_taken == ground_truth) ? 1 : 0;
+        if (fb_used && is_correct) s_fb_correct++;
+        if (ground_truth) {
+            if (s_pc_counter[ctr_key] < 3) s_pc_counter[ctr_key]++;
+        } else {
+            if (s_pc_counter[ctr_key] > 0) s_pc_counter[ctr_key]--;
+        }
+    }
+
+    /* Tier-2 style chaining: keep interpreting up to the dispatch budget */
+    while (!cpu->halted && (uint32_t)inst_count < max_insts) {
+        arm32_step(cpu);
+        inst_count++;
+    }
+    next_pc = cpu->r[15];
+
+    if (out_info) {
+        out_info[0] = sb[0];
+        out_info[1] = term_pc;
+        out_info[2] = term_inst;
+        out_info[3] = sb[3];
+        out_info[4] = next_pc;
+        out_info[5] = (uint32_t)inst_count;
+        out_info[6] = is_branch;
+        out_info[7] = sb[7];
+        union { float f; uint32_t u; } c_logit, c_prob, c_norm;
+        c_logit.f = branch_logit;
+        c_prob.f = branch_prob;
+        c_norm.f = state ? mamba_nano_get_state_norm((const MambaNanoState *)state) : 0.0f;
+        out_info[8] = c_logit.u;
+        out_info[9] = c_prob.u;
+        out_info[10] = ground_truth;
+        out_info[11] = is_correct;
+        out_info[12] = neural_taken;
+        out_info[13] = c_norm.u;
+        out_info[14] = fb_used;
+        out_info[15] = s_pc_counter[ctr_key];
+    }
+    return inst_count;
+}
+
+int arm32_step_superblock_neural_burst(ARM32_CPU *cpu, void *state,
+                                       uint32_t num_blocks, uint32_t max_insts_per_block,
+                                       uint32_t *out_last_info, uint32_t *out_stats) {
+    if (!cpu || cpu->halted) return 0;
+    uint32_t total_insts = 0, total_branches = 0, correct_branches = 0;
+    uint32_t total_taken = 0, total_fallthrough = 0;
+    uint32_t fb_burst = 0, fb_over_burst = 0, fb_correct_burst = 0;
+    uint64_t fb0_used = s_fb_used, fb0_over = s_fb_overrode, fb0_corr = s_fb_correct;
+
+    for (uint32_t b = 0; b < num_blocks; b++) {
+        uint32_t info[16];
+        int count = arm32_step_superblock_neural(cpu, state, max_insts_per_block, info);
+        total_insts += (uint32_t)count;
+        if (info[6] && info[2] != 0) {
+            total_branches++;
+            if (info[11]) correct_branches++;
+            if (info[12]) total_taken++;
+            else total_fallthrough++;
+            if (info[14]) fb_burst++;
+        }
+        if (b == num_blocks - 1 && out_last_info)
+            memcpy(out_last_info, info, sizeof(uint32_t) * 16);
+        if (cpu->halted) break;
+    }
+
+    fb_over_burst = (uint32_t)(s_fb_overrode - fb0_over);
+    fb_correct_burst = (uint32_t)(s_fb_correct - fb0_corr);
+
+    if (out_stats) {
+        out_stats[0] = total_insts;
+        out_stats[1] = total_branches;
+        out_stats[2] = correct_branches;
+        out_stats[3] = total_taken;
+        out_stats[4] = total_fallthrough;
+        out_stats[5] = fb_burst;          /* blocks decided by bimodal fallback */
+        out_stats[6] = fb_over_burst;     /* fallback overrode the SSM head     */
+        out_stats[7] = fb_correct_burst;  /* fallback decisions that were right */
+    }
+    return (int)total_insts;
+}
+
+/* ------------------------------------------------------------------ */
+/* Basic-block tracer: emits the same BlockTransition semantics as     */
+/* model/libemulator.py's RV32I step_block (regs diff + mem writes).   */
+/* ------------------------------------------------------------------ */
+
+int arm32_step_block_trace(ARM32_CPU *cpu, uint32_t max_insts, ARM32_BlockTrace *t) {
+    if (!cpu || !t) return 0;
+    memset(t, 0, sizeof(*t));
+    if (cpu->halted) return 0;
+
+    t->start_pc = cpu->r[15];
+    for (int i = 0; i < 16; i++) t->regs_in[i] = cpu->r[i];
+
+    uint32_t curr_pc = t->start_pc;
+    while (!cpu->halted && t->inst_count < max_insts) {
+        curr_pc = cpu->r[15];
+        uint32_t inst;
+        if (!arm32_inst_fetch(cpu, curr_pc, &inst) || inst == 0) { cpu->halted = 1; break; }
+
+        uint32_t cond = (inst >> 28) & 0xF;
+        uint32_t cls = (inst >> 25) & 7;
+        int is_bx = ((inst & 0x0FFFFFF0u) == 0x012FFF10u);
+        int terminates = (cond != ARM32_COND_AL) || (cls == 5) || is_bx;
+
+        if (terminates) {
+            /* Predictor sees the state BEFORE the terminator retires:
+             * snapshot regs here and do not attribute this step's effects. */
+            for (int i = 0; i < 16; i++) t->regs_out[i] = cpu->r[i];
+            arm32_step(cpu);
+            t->inst_count++;
+            t->terminated = 1;
+            break;
+        }
+
+        arm32_step(cpu);
+        t->inst_count++;
+
+        if (cpu->has_write_mem && t->n_mem < 256) {
+            t->mem_addr[t->n_mem] = cpu->write_mem_addr;
+            t->mem_val[t->n_mem] = cpu->write_mem_val;
+            t->mem_size[t->n_mem] = (uint32_t)cpu->write_mem_size;
+            t->n_mem++;
+        }
+    }
+
+    if (t->inst_count == 0) return 0;
+    t->end_pc = curr_pc;
+    t->next_pc = cpu->r[15];
+    if (!t->terminated)
+        for (int i = 0; i < 16; i++) t->regs_out[i] = cpu->r[i];
+    t->halted = cpu->halted;
+    return (int)t->inst_count;
 }

@@ -14,8 +14,13 @@ extern "C" {
 /* MMIO register addresses */
 #define ARM32_MMIO_KBD       0xFFFF0000u
 #define ARM32_MMIO_TIMER     0xFFFF0004u
+#define ARM32_MMIO_CONS      0xFFFF0008u
 #define ARM32_MMIO_VRAM      0x81000000u
 #define ARM32_MMIO_VRAM_SIZE (320u * 200u * 4u) /* 256 KB */
+
+/* Virtual clock: 10 000 guest instructions per emulated millisecond,
+ * identical to the RV32I engine so both ports share DOOM's timing model. */
+#define ARM32_TIMER_STEPS_PER_MS 10000u
 
 /* CPSR condition flag masks */
 #define ARM32_FLAG_N (1u << 31)  /* Negative */
@@ -134,8 +139,35 @@ uint32_t arm32_get_keyboard(const ARM32_CPU *cpu);
 int arm32_is_halted(const ARM32_CPU *cpu);
 uint32_t arm32_probe_gs(const ARM32_CPU *cpu);
 uint32_t arm32_probe_gametic(const ARM32_CPU *cpu);
+void arm32_set_gamestate_addr(ARM32_CPU *cpu, uint32_t addr);
+void arm32_set_gametic_addr(ARM32_CPU *cpu, uint32_t addr);
 uint8_t *arm32_get_ram_ptr(ARM32_CPU *cpu);
 size_t arm32_get_ram_size(void);
+
+/* Basic-block trace record (mirrors model/block_schema.BlockTransition) */
+typedef struct {
+    uint32_t start_pc, end_pc, next_pc;
+    uint32_t inst_count;
+    uint32_t regs_in[16];
+    uint32_t regs_out[16];
+    uint32_t mem_addr[256];
+    uint32_t mem_val[256];
+    uint32_t mem_size[256];
+    int n_mem;
+    int halted;
+    int terminated;
+} ARM32_BlockTrace;
+
+int arm32_step_block_trace(ARM32_CPU *cpu, uint32_t max_insts, ARM32_BlockTrace *t);
+
+/* Superblock stepping with the Mamba-Nano observer (same contract as the
+ * RV32I engine: the predictor is consulted, ground truth is retired). */
+int arm32_step_superblock(ARM32_CPU *cpu, uint32_t max_insts, uint32_t *out_info);
+int arm32_step_superblock_neural(ARM32_CPU *cpu, void *state, uint32_t max_insts,
+                                 uint32_t *out_info);
+int arm32_step_superblock_neural_burst(ARM32_CPU *cpu, void *state,
+                                       uint32_t num_blocks, uint32_t max_insts_per_block,
+                                       uint32_t *out_last_info, uint32_t *out_stats);
 
 extern const char *const ARM32_REG_NAMES[16];
 extern const char *const ARM32_COND_NAMES[16];

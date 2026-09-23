@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import math
 from pathlib import Path
@@ -79,12 +80,19 @@ class MambaNanoONNXWrapper(nn.Module):
         return branch_logits, pc_offset, new_states[0], new_states[1]
 
 
-def train_and_export():
+def train_and_export() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data", default=str(ROOT / "model" / "doom_blocks.jsonl"))
+    ap.add_argument("--onnx", default=str(ROOT / "web" / "mamba_nano.onnx"))
+    ap.add_argument("--regs", type=int, default=32,
+                    help="width of regs_in in the trace (padded to 32 features)")
+    args = ap.parse_args()
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
     # Load dataset
-    jsonl_path = ROOT / "model" / "doom_blocks.jsonl"
+    jsonl_path = Path(args.data)
     print(f"Loading transitions from {jsonl_path}...")
     blocks: list[BlockTransition] = []
     with open(jsonl_path, "r", encoding="utf-8") as f:
@@ -121,6 +129,8 @@ def train_and_export():
             regs_at_branch = list(b.regs_in)
             for reg_idx, val in b.reg_writes.items():
                 regs_at_branch[int(reg_idx)] = val
+            while len(regs_at_branch) < 32:
+                regs_at_branch.append(0)
             # Non-linear log1p normalized registers (preserves 0, 1, 2, ..., small loops in float32)
             r_norm = [float(np.log1p(float(v)) / 22.2) for v in regs_at_branch]
             regs.append(r_norm)
@@ -233,7 +243,8 @@ def train_and_export():
     dummy_s0 = torch.zeros(1, 64, 16, dtype=torch.float32)
     dummy_s1 = torch.zeros(1, 64, 16, dtype=torch.float32)
 
-    onnx_path = ROOT / "web" / "mamba_nano.onnx"
+    onnx_path = Path(args.onnx)
+    onnx_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         torch.onnx.export(
             wrapper,

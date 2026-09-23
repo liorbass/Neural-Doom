@@ -4,6 +4,8 @@
  * Runtime: ONNX Runtime Web with WebGPU hardware acceleration & WASM fallback.
  */
 
+const armGuest = () => (typeof window !== 'undefined' && window.__guestRamBase === 0);
+
 class NeuralExecutionEngine {
   constructor() {
     this.session = null;
@@ -220,8 +222,8 @@ class NeuralExecutionEngine {
     this.isInferencing = true;
 
     try {
-      const ramBase = 0x80000000 >>> 0;
-      const ramSize = 17 * 1024 * 1024;
+      const ramBase = (typeof window !== 'undefined' && window.__guestRamBase !== undefined) ? (window.__guestRamBase >>> 0) : (0x80000000 >>> 0);
+      const ramSize = (typeof window !== 'undefined' && window.__guestRamSize !== undefined) ? window.__guestRamSize : (17 * 1024 * 1024);
       const currPc = Module._rv32i_get_pc(cpu) >>> 0;
 
       if (currPc < ramBase || currPc >= ramBase + ramSize) {
@@ -231,6 +233,13 @@ class NeuralExecutionEngine {
 
       // STAGE C: Direct Embedded C/WASM execution (~15 µs per block)
       if (this.isEmbedded) {
+        if (this._ptrModule !== Module) {
+          this._ptrModule = Module;
+          this.cMambaStatePtr = null;
+          this.cOutInfoPtr = null;
+          this.cOutStatsPtr = null;
+          this.sbInfoPtr = null;
+        }
         if (!this.cMambaStatePtr) {
           this.cMambaStatePtr = Module._malloc(8192);
           Module._mamba_nano_reset_state(this.cMambaStatePtr);
@@ -272,7 +281,7 @@ class NeuralExecutionEngine {
         this.lastPredPc = nextPc;
 
         if (isBranch && termInst !== 0) {
-          if (termOp === 0x63) {
+          if (armGuest() || termOp === 0x63) {
             this.totalBranches++;
             if (isCorrect) this.correctBranches++;
             if (neuralTaken) {
@@ -330,6 +339,11 @@ class NeuralExecutionEngine {
           accuracyPct: this.totalBranches > 0 ? ((this.correctBranches / this.totalBranches) * 100).toFixed(1) : '0.0',
           totalTaken: this.totalTaken,
           totalFallthrough: this.totalFallthrough,
+          lastFallbackUsed: this.lastFallbackUsed === true,
+                    lastPcCounter: this.lastPcCounter || 0,
+                    totalFallbackUsed: this.totalFallbackUsed || 0,
+                    totalFallbackOverrode: this.totalFallbackOverrode || 0,
+                    totalFallbackCorrect: this.totalFallbackCorrect || 0,
           safetyClamps: this.safetyClamps,
           regWrites: this.lastRegWrites,
           memWrites: this.lastMemWrites,
@@ -515,6 +529,11 @@ class NeuralExecutionEngine {
         accuracyPct: this.totalBranches > 0 ? ((this.correctBranches / this.totalBranches) * 100).toFixed(1) : '0.0',
         totalTaken: this.totalTaken,
         totalFallthrough: this.totalFallthrough,
+        lastFallbackUsed: false,
+                lastPcCounter: 0,
+                totalFallbackUsed: this.totalFallbackUsed || 0,
+                totalFallbackOverrode: this.totalFallbackOverrode || 0,
+                totalFallbackCorrect: this.totalFallbackCorrect || 0,
         safetyClamps: this.safetyClamps,
         regWrites: this.lastRegWrites,
         memWrites: this.lastMemWrites,
@@ -541,14 +560,21 @@ class NeuralExecutionEngine {
     if (!cpu || !Module) return null;
     if (Module._rv32i_is_halted && Module._rv32i_is_halted(cpu)) return null;
 
-    const ramBase = 0x80000000 >>> 0;
-    const ramSize = 17 * 1024 * 1024;
+    const ramBase = (typeof window !== 'undefined' && window.__guestRamBase !== undefined) ? (window.__guestRamBase >>> 0) : (0x80000000 >>> 0);
+    const ramSize = (typeof window !== 'undefined' && window.__guestRamSize !== undefined) ? window.__guestRamSize : (17 * 1024 * 1024);
     const currPc = Module._rv32i_get_pc(cpu) >>> 0;
     if (currPc < ramBase || currPc >= ramBase + ramSize) {
       console.warn(`[NeuralEngine] PC 0x${currPc.toString(16)} out of bounds`);
       return null;
     }
 
+    if (this._ptrModule !== Module) {
+      this._ptrModule = Module;
+      this.cMambaStatePtr = null;
+      this.cOutInfoPtr = null;
+      this.cOutStatsPtr = null;
+      this.sbInfoPtr = null;
+    }
     if (!this.cMambaStatePtr) {
       this.cMambaStatePtr = Module._malloc(8192);
       Module._mamba_nano_reset_state(this.cMambaStatePtr);
@@ -578,6 +604,12 @@ class NeuralExecutionEngine {
     const burstCorrect     = u32[statsIdx + 2] >>> 0;
     const burstTaken       = u32[statsIdx + 3] >>> 0;
     const burstFallthrough = u32[statsIdx + 4] >>> 0;
+    const fbUsedBurst  = u32[statsIdx + 5] >>> 0;
+    const fbOverBurst  = u32[statsIdx + 6] >>> 0;
+    const fbCorrBurst  = u32[statsIdx + 7] >>> 0;
+    this.totalFallbackUsed    = (this.totalFallbackUsed    || 0) + fbUsedBurst;
+    this.totalFallbackOverrode= (this.totalFallbackOverrode|| 0) + fbOverBurst;
+    this.totalFallbackCorrect = (this.totalFallbackCorrect || 0) + fbCorrBurst;
 
     this.totalBlocks += burstSize;
     this.totalInsts += burstInsts;
@@ -610,14 +642,18 @@ class NeuralExecutionEngine {
     const isCorrect     = u32[baseIdx + 11] !== 0;
     const neuralTaken   = u32[baseIdx + 12] !== 0;
     const stateNorm     = f32[13];
+    const lastFbUsed    = u32[baseIdx + 14] !== 0;
+    const lastPcCtr     = u32[baseIdx + 15] >>> 0;
 
     this.lastBranchLogit = branchLogit;
     this.lastBranchProb = branchProb;
     this.lastStateNorm = stateNorm;
     this.lastPredPc = nextPc;
+    this.lastFallbackUsed = lastFbUsed;
+    this.lastPcCounter = lastPcCtr;
 
     if (isBranch && termInst !== 0) {
-      if (termOp === 0x63) {
+      if (armGuest() || termOp === 0x63) {
         this.lastBranchDecision = neuralTaken ? 'TAKEN' : 'FALLTHROUGH';
         this.lastGroundTruth = gtTaken ? 'TAKEN' : 'FALLTHROUGH';
         this.lastIsCorrect = isCorrect;
@@ -660,6 +696,14 @@ class NeuralExecutionEngine {
       accuracyPct: this.totalBranches > 0 ? ((this.correctBranches / this.totalBranches) * 100).toFixed(1) : '0.0',
       totalTaken: this.totalTaken,
       totalFallthrough: this.totalFallthrough,
+      fallbackUsedBurst: fbUsedBurst,
+      fallbackOverrodeBurst: fbOverBurst,
+      fallbackCorrectBurst: fbCorrBurst,
+      totalFallbackUsed: this.totalFallbackUsed || 0,
+      totalFallbackOverrode: this.totalFallbackOverrode || 0,
+      totalFallbackCorrect: this.totalFallbackCorrect || 0,
+      lastFallbackUsed: this.lastFallbackUsed === true,
+      lastPcCounter: this.lastPcCounter || 0,
       safetyClamps: this.safetyClamps,
       regWrites: this.lastRegWrites,
       memWrites: this.lastMemWrites,

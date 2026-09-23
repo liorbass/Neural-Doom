@@ -150,8 +150,13 @@ int _isatty(int fd) { return (fd <= 2) ? 1 : 0; }
 
 void _exit(int status)
 {
+    (void)status;
     while (1) {
+#if defined(__riscv)
         __asm__ volatile ("ecall");
+#elif defined(__arm__)
+        __asm__ volatile ("b .");
+#endif
     }
 }
 

@@ -1,0 +1,6 @@
+gameaction 0x0007ebf8
+gamestate 0x0007ebf4
+gametic 0x00078c3c
+itemOn 0x0007f38c
+menuactive 0x0007f520
+pagetic 0x0007dc60
